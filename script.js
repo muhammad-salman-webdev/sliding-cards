@@ -69,3 +69,23 @@ const swiper = new Swiper(".fliping-popup-swiper", {
 });
 
 document.querySelector(".fliping-popup-slider-btn.prev").disabled = true;
+
+// Faq functionalities
+const allFaqSections = document.querySelectorAll(
+  "[data-custom-faq-section-identifier]"
+);
+allFaqSections.forEach((faqSection) => {
+  const faqs = faqSection.querySelectorAll("ul li .custom-faq");
+  faqs.forEach((faq, faq_i) => {
+    const toggleBtn = faq.querySelector(".custom-faq-q");
+    toggleBtn.addEventListener("click", () => {
+      faqs.forEach((_faq, _faq_i) => {
+        if (faq_i === _faq_i) {
+          _faq.classList.toggle("open");
+        } else {
+          _faq.classList.remove("open");
+        }
+      });
+    });
+  });
+});

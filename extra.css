@@ -1,0 +1,285 @@
+@media (max-width: 1440px) {
+    .fliping-content-section {
+        .fliping-overlay {
+            &.show {}
+
+            &.anim {}
+        }
+
+        .rotating-section-container {
+            &:has(.toggle) {}
+
+            .rotating-section-content-sides-container {
+                &.toggle {}
+
+                .rotating-content-front-side-container {
+                    .side-content-container {
+                        .content {
+                            .label {
+                                h3 {}
+                            }
+
+                            .title {
+                                h2 {
+                                    &.static {}
+
+                                    &.dynamic {
+                                        .blinker {}
+                                    }
+                                }
+                            }
+
+                            .sub-title {
+                                p {}
+                            }
+                        }
+
+                        .rotating-card-img {
+                            img {}
+                        }
+
+                        .side-toggle-btn {
+                            button {
+                                &:hover {}
+                            }
+                        }
+                    }
+
+                    &:hover {
+                        .side-content-container {
+                            .content {
+                                .title {
+                                    h2 {
+                                        &.static {}
+
+                                        &.dynamic {
+                                            .blinker {}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .rotating-content-back-side-container {
+                    .backside-content-container {
+                        .content {
+                            h2 {}
+
+                            .desc {
+                                p {}
+                            }
+
+                            a {
+                                &:hover {}
+                            }
+                        }
+
+                        .backside-content-img {
+                            .svg-icon {
+                                img {}
+                            }
+
+                            img {}
+                        }
+
+                        .side-toggle-btn {
+                            button {
+                                &:hover {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .rotating-section-popup-main {
+            &.show {}
+
+            &.anim {}
+
+            .rotating-section-popup-container {
+                .rotating-section-popup-close-btn {
+                    button {
+                        &:hover {}
+                    }
+                }
+
+                .rotating-section-popup-content-container {
+                    .fliping-popup-hero-content {
+                        .text-content-img {
+                            .content {
+                                h2 {}
+
+                                p {}
+                            }
+
+                            .image {
+                                img {}
+                            }
+                        }
+
+                        .text-content-slider {
+                            .slider-container {}
+
+                            .fliping-popup-swiper {
+                                .swiper-wrapper {
+                                    .swiper-slide {
+                                        .slide-container {
+                                            h5 {}
+
+                                            h2 {
+                                                span {}
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            .fliping-popup-slider-btns {
+                                button {
+                                    svg {}
+
+                                    &:disabled {
+                                        svg {}
+                                    }
+
+                                    &:hover:not(:disabled) {
+                                        svg {}
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .fliping-popup-service-container {
+                        h2 {}
+
+                        .fliping-service-text-img-content {
+                            h3 {
+                                span {}
+                            }
+
+                            img {}
+                        }
+                    }
+
+                    .fliping-popup-benefits-container {
+                        h2 {}
+
+                        ul {
+                            li {
+                                img {}
+
+                                h5 {}
+
+                                p {}
+                            }
+                        }
+                    }
+
+                    .flip-popup-faq-container {
+                        .title {
+                            h2 {
+                                span {}
+                            }
+                        }
+
+                        .custom-faqs-container {}
+
+                        .contact-btn {
+                            a {}
+                        }
+                    }
+
+                    .fliping-popup-video-gallery-container {
+                        .fliping-popup-video-gallery {
+                            .fliping-video-gallery-headings {
+                                .titles {
+                                    h3 {}
+
+                                    h1 {}
+                                }
+
+                                .desc {
+                                    p {}
+                                }
+                            }
+
+                            .custom_gallery-section {
+                                .c-container {
+                                    .c-btns {
+                                        button {
+
+                                            &:hover,
+                                            &.active {}
+                                        }
+                                    }
+
+                                    .custom_gallery-cards {
+                                        .custom_gallery-card {
+                                            &.anim {}
+
+                                            &.show {}
+
+                                            .box {
+                                                img {}
+
+                                                &:hover {
+                                                    img {}
+                                                }
+                                            }
+
+                                            &.show-popup .popup {}
+
+                                            &.anim-popup .popup {
+                                                .overlay {}
+
+                                                .video-container {}
+                                            }
+
+                                            .popup {
+                                                .overlay {}
+
+                                                .video-container {
+                                                    .close-icon {
+                                                        i {
+                                                            &:hover {}
+                                                        }
+                                                    }
+
+                                                    video {}
+
+                                                    .play-pause-btn {
+                                                        i {}
+
+                                                        i.fa-play {}
+
+                                                        &.played {
+                                                            i.fa-pause {}
+
+                                                            i.fa-play {}
+                                                        }
+                                                    }
+
+                                                    &:hover {
+                                                        .play-pause-btn {}
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        .fliping-video-gallery-btn {
+                            ._btn {}
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

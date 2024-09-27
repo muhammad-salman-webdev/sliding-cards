@@ -44,30 +44,30 @@ elements.forEach((element) => {
 });
 
 // Select all flip cards that have the attribute "data-toggle-card-flip"
-const flipCards = document.querySelectorAll(
-  ".rotating-section-content-sides-container[data-toggle-card-flip]"
-);
+// const flipCards = document.querySelectorAll(
+//   ".rotating-section-content-sides-container[data-toggle-card-flip]"
+// );
 
-// Loop through each flip card to add the flipping functionality
-flipCards.forEach((flipCard) => {
-  // Select the front side toggle button
-  const toggleBtn = flipCard.querySelector(
-    ".rotating-content-front-side-container .side-toggle-btn button[data-flip-toggle-btn]"
-  );
-  // Add click event listener to toggle the flip card
-  toggleBtn.addEventListener("click", () => {
-    flipCard.classList.toggle("toggle"); // Add or remove the "toggle" class to flip the card
-  });
+// // Loop through each flip card to add the flipping functionality
+// flipCards.forEach((flipCard) => {
+//   // Select the front side toggle button
+//   const toggleBtn = flipCard.querySelector(
+//     ".rotating-content-front-side-container .side-toggle-btn button[data-flip-toggle-btn]"
+//   );
+//   // Add click event listener to toggle the flip card
+//   toggleBtn.addEventListener("click", () => {
+//     flipCard.classList.toggle("toggle"); // Add or remove the "toggle" class to flip the card
+//   });
 
-  // Select the back side toggle button
-  const toggleFrontBtn = flipCard.querySelector(
-    ".rotating-content-back-side-container .side-toggle-btn button[data-flip-toggle-btn]"
-  );
-  // Add click event listener to flip the card back
-  toggleFrontBtn.addEventListener("click", () => {
-    flipCard.classList.toggle("toggle"); // Add or remove the "toggle" class to flip the card back
-  });
-});
+//   // Select the back side toggle button
+//   const toggleFrontBtn = flipCard.querySelector(
+//     ".rotating-content-back-side-container .side-toggle-btn button[data-flip-toggle-btn]"
+//   );
+//   // Add click event listener to flip the card back
+//   toggleFrontBtn.addEventListener("click", () => {
+//     flipCard.classList.toggle("toggle"); // Add or remove the "toggle" class to flip the card back
+//   });
+// });
 
 // Select all swiper popup elements
 const allPopupsSwiper = document.querySelectorAll(
@@ -144,7 +144,12 @@ allFlipCardsElems.forEach((flipCard) => {
   const popupCloseBtn = popup.querySelector(
     "button.c_popup-close-btn[data-flip-popup-close-btn]"
   );
+
   const body = document.body; // Reference to the body element to disable scrolling when popup is open
+
+  const popupOverlay = flipCard.querySelector(
+    ".fliping-overlay[data-fliping-overlay]"
+  );
 
   // Add click event listener to the "Learn More" button to show the popup
   popupOpenBtn.addEventListener("click", (e) => {
@@ -158,13 +163,56 @@ allFlipCardsElems.forEach((flipCard) => {
     }, 10); // Delay to ensure popup is fully visible before animating
   });
 
-  // Add click event listener to the close button to hide the popup
-  popupCloseBtn.addEventListener("click", () => {
+  function closePopup() {
     popup.classList.remove("anim"); // Remove animation class
     body.classList.remove("no-scroll"); // Enable scrolling on the body again
 
     setTimeout(() => {
       popup.classList.remove("show"); // Hide the popup
     }, 300); // Delay to ensure the closing animation finishes
+  }
+
+  // Add click event listener to the close button to hide the popup
+  popupCloseBtn.addEventListener("click", closePopup);
+  popup.addEventListener("click", (e) => {
+    e.target === popup ? closePopup() : "";
   });
+
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  // Loop through each flip card to add the flipping functionality
+
+  const _flipCard = flipCard.querySelector(
+    ".rotating-section-content-sides-container[data-toggle-card-flip]"
+  );
+  // Select the front side toggle button
+  const toggleBtn = _flipCard.querySelector(
+    ".rotating-content-front-side-container .side-toggle-btn button[data-flip-toggle-btn]"
+  );
+  // Add click event listener to toggle the flip card
+  toggleBtn.addEventListener("click", () => {
+    _flipCard.classList.add("toggle"); // Add or remove the "toggle" class to flip the card
+    popupOverlay.classList.add("show");
+    popupOverlay.style.height = document.body.scrollHeight + "px";
+    setTimeout(() => {
+      popupOverlay.classList.add("anim");
+    }, 10);
+  });
+
+  // Select the back side toggle button
+  const toggleFrontBtn = _flipCard.querySelector(
+    ".rotating-content-back-side-container .side-toggle-btn button[data-flip-toggle-btn]"
+  );
+
+  function flipToFront() {
+    _flipCard.classList.remove("toggle"); // Add or remove the "toggle" class to flip the card back
+    popupOverlay.classList.remove("anim");
+    setTimeout(() => {
+      popupOverlay.classList.remove("show");
+    }, 700);
+  }
+
+  // Add click event listener to flip the card back
+  toggleFrontBtn.addEventListener("click", flipToFront);
+  popupOverlay.addEventListener("click", flipToFront);
 });

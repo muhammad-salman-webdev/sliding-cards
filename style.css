@@ -223,6 +223,16 @@
 body {
     padding: 50px 0;
     background: #131314;
+    background: linear-gradient(red 10%, red 10%,
+            green 10%, green 20%,
+            blue 20%, blue 30%,
+            pink 30%, pink 40%,
+            orange 40%, orange 50%,
+            yellow 50%, yellow 60%,
+            black 60%, black 70%,
+            white 70%, white 80%,
+            grey 80%, grey 90%,
+            purple 90% 100%);
 }
 
 body.no-scroll {
@@ -242,11 +252,35 @@ body.no-scroll {
 }
 
 .fliping-content-section {
+    .fliping-overlay {
+        background: #0000007A;
+        backdrop-filter: blur(20px);
+        position: absolute;
+        inset: 0;
+        display: none;
+        transition: opacity .5s ease;
+        opacity: 0;
+        z-index: 999;
+
+        &.show {
+            display: block;
+        }
+
+        &.anim {
+            opacity: 1;
+        }
+    }
+
     .rotating-section-container {
         max-width: 1280px;
         margin: 0 auto;
         perspective: 2000px;
         margin: 50px auto;
+
+        &:has(.toggle) {
+            z-index: 99999;
+            position: relative;
+        }
 
         .rotating-section-content-sides-container {
             width: 100%;
@@ -266,6 +300,7 @@ body.no-scroll {
             &.toggle {
                 transform: rotateX(0deg);
                 box-shadow: -3px -1px 24px 4px #a4a2a24f;
+                z-index: 9999;
             }
 
             .rotating-content-front-side-container {

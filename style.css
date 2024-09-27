@@ -878,6 +878,7 @@ body.no-scroll {
                 .fliping-popup-video-gallery-container {
                     padding: 110px 30px;
                     background: #121212;
+                    margin-bottom: 80px;
 
                     .fliping-popup-video-gallery {
                         .fliping-video-gallery-headings {
@@ -950,12 +951,10 @@ body.no-scroll {
                                         outline: none;
                                         cursor: pointer;
 
-                                        &:hover {
-                                            background-color: #6E00F2;
-                                        }
-
+                                        &:hover,
                                         &.active {
-                                            background-color: #673DE6;
+                                            background-color: #FFFFFF;
+                                            color: black;
                                         }
                                     }
                                 }
@@ -1042,7 +1041,7 @@ body.no-scroll {
                                             .video-container {
                                                 max-width: 1000px;
                                                 width: 96%;
-                                                position: relative;
+                                                position: absolute;
                                                 padding: 50px;
                                                 border-radius: 20px;
                                                 background: white;
@@ -1170,6 +1169,20 @@ body.no-scroll {
                                     }
                                 }
                             }
+                        }
+                    }
+
+                    .fliping-video-gallery-btn {
+                        display: flex;
+                        justify-content: center;
+
+                        ._btn {
+                            border: 2px solid #FFFFFF;
+                            font-family: 'Inter';
+                            font-size: 15.38px;
+                            font-weight: 500;
+                            line-height: 16px;
+                            text-decoration: none;
                         }
                     }
                 }

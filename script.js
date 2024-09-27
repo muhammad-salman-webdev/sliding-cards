@@ -275,10 +275,27 @@ allFlipCardsElems.forEach((flipCard) => {
       playPauseBtn = card.querySelector(".play-pause-btn"),
       video = card.querySelector("video");
 
-    thumbnail.addEventListener("click", () => {
+    thumbnail.addEventListener("click", (event) => {
       card.querySelector(".popup").style.height = popup.scrollHeight + "px";
-      // popup.style.overflow = "hidden";
+
+      const videoPlayer = card.querySelector(".video-container");
+
+      popup.addEventListener("scroll", () => {
+        const y = popup.scrollTop;
+        console.log(y);
+      });
+
+      popup.style.overflow = "hidden";
       card.classList.add("show-popup");
+
+      const y = popup.scrollTop;
+      const x = (window.innerHeight - videoPlayer.offsetHeight) / 2;
+      videoPlayer.style.top = y + x;
+
+      // console.log(videoPlayer, videoPlayer.offsetHeight);
+      // console.log(videoPlayer, videoPlayer.clientHeight);
+      // console.log(videoPlayer, videoPlayer.scrollHeight);
+
       setTimeout(() => {
         card.classList.add("anim-popup");
       }, 10);

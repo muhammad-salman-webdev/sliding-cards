@@ -223,9 +223,9 @@
 body {
     padding: 50px 0;
     background: #131314;
-    background: linear-gradient(red 10%, red 10%,
+    background: linear-gradient(45deg, red 10%, red 10%,
             green 10%, green 20%,
-            blue 20%, blue 30%,
+            aqua 20%, aqua 30%,
             pink 30%, pink 40%,
             orange 40%, orange 50%,
             yellow 50%, yellow 60%,

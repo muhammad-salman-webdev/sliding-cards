@@ -225,6 +225,10 @@ body {
     background: #131314;
 }
 
+body.no-scroll {
+    overflow: hidden;
+}
+
 @keyframes blink-caret {
 
     from,
@@ -533,6 +537,18 @@ body {
         overflow: auto;
         background: #0000007A;
         backdrop-filter: blur(20px);
+        display: none;
+        opacity: 0;
+        transition: all .3s ease;
+        z-index: 9999999999;
+
+        &.show {
+            display: block;
+        }
+
+        &.anim {
+            opacity: 1;
+        }
 
         /* padding: 100px 90px; */
         .rotating-section-popup-container {
@@ -836,8 +852,4 @@ body {
             }
         }
     }
-}
-
-body {
-    overflow: hidden;
 }

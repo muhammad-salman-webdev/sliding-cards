@@ -32,7 +32,6 @@ elements.forEach((element) => {
 });
 
 // data-toggle-card-flip
-
 const flipCards = document.querySelectorAll(
   ".rotating-section-content-sides-container[data-toggle-card-flip]"
 );
@@ -51,24 +50,30 @@ flipCards.forEach((flipCard) => {
     flipCard.classList.toggle("toggle");
   });
 });
+// All popups Swipers
+const allPopupsSwiper = document.querySelectorAll(
+  ".rotating-section-popup-main .fliping-popup-swiper"
+);
+allPopupsSwiper.forEach((popupSwiper, _I) => {
+  const swiper = new Swiper(popupSwiper, {
+    // Optional parameters
+    loop: true,
+    speed: 800,
 
-const swiper = new Swiper(".fliping-popup-swiper", {
-  // Optional parameters
-  loop: true,
+    // Navigation arrows
+    navigation: {
+      nextEl: ".fliping-popup-slider-btn.next",
+      prevEl: ".fliping-popup-slider-btn.prev",
+    },
 
-  // Navigation arrows
-  navigation: {
-    nextEl: ".fliping-popup-slider-btn.next",
-    prevEl: ".fliping-popup-slider-btn.prev",
-  },
+    // And if we need scrollbar
+    scrollbar: {
+      el: ".swiper-scrollbar",
+    },
+  });
 
-  // And if we need scrollbar
-  scrollbar: {
-    el: ".swiper-scrollbar",
-  },
+  document.querySelector(".fliping-popup-slider-btn.prev").disabled = true;
 });
-
-document.querySelector(".fliping-popup-slider-btn.prev").disabled = true;
 
 // Faq functionalities
 const allFaqSections = document.querySelectorAll(
@@ -89,3 +94,5 @@ allFaqSections.forEach((faqSection) => {
     });
   });
 });
+
+// Making Popups Open and close

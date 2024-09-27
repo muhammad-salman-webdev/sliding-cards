@@ -129,6 +129,7 @@
                display: flex;
                align-items: center;
                justify-content: space-between;
+               gap: 20px;
 
                h2 {
                   margin: 0;
@@ -144,6 +145,7 @@
 
                .faq-icon {
                   background: #161719;
+                  min-width: 14px;
                   width: 14px;
                   height: 2px;
                   border-radius: 6px;
@@ -1463,13 +1465,13 @@ body.no-scroll {
    .fliping-content-section {
       .rotating-section-popup-main {
          .rotating-section-popup-container {
-            margin: 0;
-            border-radius: 0px;
+            margin: 20px 0 0 0;
+            border-radius: 20px 20px 0 00;
             max-width: 100%;
 
             .rotating-section-popup-content-container {
                .fliping-popup-hero-content {
-                  border-radius: 0;
+                  border-radius: 20px 20px 0 0;
                   padding: 50px;
 
                   .text-content-img {
@@ -1628,9 +1630,14 @@ body.no-scroll {
 
             .rotating-section-popup-content-container {
                .fliping-popup-hero-content {
+                  padding: 30px 20px 40px;
+
                   .text-content-img {
                      .content {
-                        h2 {}
+                        h2 {
+                           font-size: 30px;
+                           line-height: 40px;
+                        }
 
                         p {}
                      }
@@ -1641,6 +1648,8 @@ body.no-scroll {
                   }
 
                   .text-content-slider {
+                     padding: 30px 20px 20px;
+
                      .slider-container {}
 
                      .fliping-popup-swiper {
@@ -1650,6 +1659,8 @@ body.no-scroll {
                                  h5 {}
 
                                  h2 {
+                                    font-size: 20px;
+
                                     span {}
                                  }
                               }
@@ -1674,10 +1685,20 @@ body.no-scroll {
                }
 
                .fliping-popup-service-container {
-                  h2 {}
+                  padding: 40px 20px;
+
+                  h2 {
+                     font-size: 28px;
+                     line-height: 30px;
+                  }
 
                   .fliping-service-text-img-content {
+                     margin: 20px 0 0 0;
+
                      h3 {
+                        padding: 20px 20px 0;
+                        font-size: 20px;
+
                         span {}
                      }
 
@@ -1686,27 +1707,64 @@ body.no-scroll {
                }
 
                .fliping-popup-benefits-container {
-                  h2 {}
+                  padding: 0 20px 50px 20px;
+
+                  h2 {
+                     font-size: 30px;
+                  }
 
                   ul {
+                     margin-top: 24px;
+                     gap: 16px;
+
                      li {
+                        padding: 28px 24px;
+
                         img {}
 
-                        h5 {}
+                        h5 {
+                           font-size: 20px;
+                        }
 
-                        p {}
+                        p {
+                           font-size: 14px;
+                           line-height: 22px;
+                        }
                      }
                   }
                }
 
                .flip-popup-faq-container {
+                  padding: 0 20px;
+
                   .title {
                      h2 {
+                        font-size: 22px;
+                        line-height: 32px;
+
                         span {}
                      }
                   }
 
-                  .custom-faqs-container {}
+                  .custom-faqs-container {
+                     margin: 0px 0;
+                     padding: 40px 0px;
+
+                     ul {
+                        li {
+                           .custom-faq {
+                              padding: 15px 15px;
+
+                              .custom-faq-q {
+                                 h2 {
+                                    font-size: 18px;
+                                    line-height: 26.92px;
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
 
                   .contact-btn {
                      a {}
@@ -1714,6 +1772,9 @@ body.no-scroll {
                }
 
                .fliping-popup-video-gallery-container {
+                  margin-bottom: 50px;
+                  padding: 40px 20px;
+
                   .fliping-popup-video-gallery {
                      .fliping-video-gallery-headings {
                         .titles {

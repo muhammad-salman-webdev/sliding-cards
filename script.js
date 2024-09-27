@@ -67,3 +67,5 @@ const swiper = new Swiper(".fliping-popup-swiper", {
     el: ".swiper-scrollbar",
   },
 });
+
+document.querySelector(".fliping-popup-slider-btn.prev").disabled = true;

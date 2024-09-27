@@ -321,19 +321,42 @@ body {
         overflow: auto;
         background: #0000007A;
         backdrop-filter: blur(20px);
-        padding: 100px 90px;
 
+        /* padding: 100px 90px; */
         .rotating-section-popup-container {
             background: white;
             max-width: 1260px;
-            margin: 0 auto;
+            margin: 100px auto;
+            border-radius: 18px;
+            padding-bottom: 100px;
 
             .rotating-section-popup-close-btn {
-                position: absolute;
+                height: 0;
+                margin-left: auto;
+                max-width: max-content;
+                position: sticky;
+                top: 0px;
 
                 button {
-                    position: sticky;
-                    top: 0px;
+                    display: grid;
+                    width: 36px;
+                    aspect-ratio: 1/1;
+                    border: none;
+                    outline: none;
+                    font-size: 20px;
+                    margin: 40px 40px 0 0;
+                    border-radius: 50%;
+                    place-items: center;
+                    background: #333336;
+                    color: #D6D6D7;
+                    transition: all .3s ease;
+                    transform: translateY(40px);
+
+                    &:hover {
+                        transform: translateY(40px) rotate(90deg);
+                        cursor: pointer;
+                        background: #333336;
+                    }
                 }
             }
 
@@ -341,6 +364,7 @@ body {
                 .fliping-popup-hero-content {
                     background: linear-gradient(179.62deg, #EAEBDE 24.98%, #D8D2D3 52.05%, #C5D7F7 90.37%);
                     padding: 138px 138px 80px 138px;
+                    border-radius: 18px 18px 0 0;
 
                     .text-content-img {
                         display: flex;
@@ -402,7 +426,7 @@ body {
                                             font-size: 13.3px;
                                             font-weight: 500;
                                             letter-spacing: -0.4000000059604645px;
-                                            padding: 1px 8px;
+                                            padding: 2px 8px;
                                             background: #000000;
                                             color: #FFFFFF;
                                             max-width: max-content;
@@ -429,7 +453,137 @@ body {
                         }
 
                         .fliping-popup-slider-btns {
-                            background: red;
+                            display: flex;
+                            justify-content: right;
+                            gap: 8px;
+
+                            button {
+                                width: 44px;
+                                aspect-ratio: 1/1;
+                                display: grid;
+                                place-items: center;
+                                border: 1px solid #0D0628;
+                                outline: none;
+                                background: white;
+                                transition: all .3s ease;
+                                border-radius: 8px;
+                                cursor: pointer;
+
+                                svg {
+                                    transition: all .3s ease;
+                                    fill: #161719;
+                                    width: 20px;
+                                }
+
+                                &:disabled {
+                                    border: 1px solid #0D062833;
+                                    cursor: default;
+
+                                    svg {
+                                        fill: #16171933;
+                                    }
+                                }
+
+                                &:hover:not(:disabled) {
+                                    background: #0D0628;
+
+                                    svg {
+                                        fill: white
+                                    }
+
+                                    ;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .fliping-popup-service-container {
+                    padding: 90px 70px;
+
+                    h2 {
+                        font-family: 'Inter';
+                        font-size: 38px;
+                        font-weight: 500;
+                        line-height: 52px;
+                        letter-spacing: -0.10000000149011612px;
+                        color: #1D1D1F;
+                    }
+
+                    .fliping-service-text-img-content {
+                        margin: 40px 0 0 0;
+                        padding: 80px 0 0 0;
+                        background: #F5F5F7;
+                        border-radius: 28px 28px 0 28px;
+
+                        h3 {
+                            width: 80%;
+                            margin: 0 auto;
+                            font-family: 'Inter';
+                            font-size: 26.7px;
+                            font-weight: 500;
+                            line-height: 38px;
+                            letter-spacing: -1.0670000314712524px;
+                            color: #6E6E73;
+
+                            span {
+                                color: #1D1D1F;
+                            }
+                        }
+
+                        img {
+                            margin-top: 30px;
+                            width: 64%;
+                            margin-left: auto;
+                            display: block;
+                        }
+                    }
+                }
+
+                .fliping-popup-benefits-container {
+                    padding: 0 70px 90px 70px;
+
+                    h2 {
+                        font-family: 'Inter';
+                        font-size: 38px;
+                        font-weight: 500;
+                        line-height: 31.92px;
+                        letter-spacing: -1.1200000047683716px;
+                        color: #1E1E1E;
+                    }
+
+                    ul {
+                        margin-top: 42px;
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 30px;
+                        list-style: none;
+
+                        li {
+                            border: 1px solid #DFE0E4;
+                            padding: 60px 32px;
+                            border-radius: 18px;
+
+                            img {
+                                width: 45px;
+                            }
+
+                            h5 {
+                                font-family: 'Inter';
+                                font-size: 22px;
+                                font-weight: 500;
+                                line-height: 30.41px;
+                                color: #161719;
+                                margin: 18px 0 6px;
+                            }
+
+                            p {
+                                font-family: 'Inter';
+                                font-size: 16px;
+                                font-weight: 400;
+                                line-height: 30px;
+                                color: #000;
+                            }
                         }
                     }
                 }

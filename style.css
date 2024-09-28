@@ -426,7 +426,8 @@ body.no-scroll {
             }
 
             &:hover {
-               box-shadow: 0px 0px 103px 70px rgba(40, 54, 248, 0.39);
+               /* box-shadow: 0px 0px 103px 70px rgba(40, 54, 248, 0.39); */
+               box-shadow: 0px 0px 87px 13px rgba(40, 54, 248, 0.38);
 
                .side-content-container {
                   background: #2835F8;
@@ -626,7 +627,7 @@ body.no-scroll {
                }
 
                &:hover {
-                  box-shadow: 0px 0px 103px 70px rgb(237, 82, 203, 0.39);
+                  box-shadow: 0px 0px 87px 13px rgb(237, 82, 203, 0.39);
 
                   .side-content-container {
                      background: #ED52CB;
@@ -668,7 +669,7 @@ body.no-scroll {
                }
 
                &:hover {
-                  box-shadow: 0px 0px 103px 70px rgb(0, 215, 16, 0.39);
+                  box-shadow: 0px 0px 87px 13px rgb(0, 215, 16, 0.39);
 
                   .side-content-container {
                      background: #00D710;
@@ -712,7 +713,7 @@ body.no-scroll {
                }
 
                &:hover {
-                  box-shadow: 0px 0px 103px 70px rgb(255, 107, 0, 0.39);
+                  box-shadow: 0px 0px 87px 13px rgb(255, 107, 0, 0.39);
 
                   .side-content-container {
                      background: #FF6B00;

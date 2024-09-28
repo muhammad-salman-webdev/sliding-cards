@@ -1,0 +1,4413 @@
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap");
+
+  /* Reusable Classes */
+  ._btn {
+    font-family: "Inter";
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 26px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: max-content;
+    padding: 12px 60px;
+    border: 2px solid #ffffff;
+    position: relative;
+    overflow: hidden;
+    color: #ffffff;
+    background: #121212;
+    border-radius: 5px;
+    box-shadow: none;
+    outline: none;
+    transition: all 0.3s ease;
+
+    & > * {
+      position: relative;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #5d5f68;
+      background-size: 200%;
+      transition: 0.5s ease-out;
+      content: "";
+      left: -1px;
+      top: -1px;
+      width: calc(100% + 2px);
+      height: calc(100% + 2px);
+      transform: scale(0, 1);
+      transform-origin: left;
+    }
+
+    &:hover {
+      color: #ffffff;
+
+      &::before {
+        transform: scale(1, 1);
+      }
+    }
+
+    &.btn_light {
+      border: 2px solid #121212;
+      padding-top: 11px;
+      padding-bottom: 11px;
+      color: #121212;
+      background: #ffffff;
+
+      &:hover {
+        border-color: #dfe0e4;
+      }
+
+      &::before {
+        background: #dfe0e4;
+      }
+    }
+  }
+  html:has(body.no-scroll) {
+    overflow: hidden;
+  }
+
+  body.no-scroll {
+    overflow: hidden;
+  }
+
+  .play-pause-btn {
+    width: 36px;
+    aspect-ratio: 1/1;
+    display: grid;
+    place-items: center;
+    background: #141414;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    i {
+      position: absolute;
+      color: #ececf0;
+      opacity: 1;
+      font-size: 18px;
+    }
+
+    i.fa-play {
+      opacity: 0;
+      margin-left: 2px;
+    }
+
+    &.paused {
+      i.fa-pause {
+        opacity: 0;
+      }
+
+      i.fa-play {
+        opacity: 1;
+      }
+    }
+  }
+
+  .custom-faqs-container {
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      list-style: none;
+
+      li {
+        .custom-faq {
+          border: 1px solid #dfe0e4;
+          background: #ffffff;
+          border-radius: 10px;
+          padding: 30px 27px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          .custom-faq-q {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+
+            h2 {
+              margin: 0;
+              padding: 0;
+              font-family: "Inter";
+              font-size: 25px;
+              font-weight: 500;
+              line-height: 31.92px;
+              letter-spacing: -1.1200000047683716px;
+              color: #222222;
+              transition: all 0.3s ease;
+            }
+
+            .faq-icon {
+              background: #161719;
+              min-width: 14px;
+              width: 14px;
+              height: 2px;
+              border-radius: 6px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              position: relative;
+              transition: all 0.3s ease;
+
+              &::before {
+                transition: all 0.1s ease;
+                opacity: 1;
+                content: "";
+                position: absolute;
+                height: 2px;
+                width: 100%;
+                transform: rotate(90deg);
+                background: inherit;
+                border-radius: inherit;
+              }
+            }
+          }
+
+          .custom-faq-a {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: all 0.3s ease;
+            overflow: hidden;
+
+            .faq-a-content {
+              min-height: 0px;
+
+              .faq-a-body {
+                p {
+                  padding-top: 20px;
+                  font-family: "Inter";
+                  font-size: 15px;
+                  font-weight: 500;
+                  line-height: 21.92px;
+                  letter-spacing: -0.6399999856948853px;
+                  color: #686a74;
+                }
+              }
+            }
+          }
+
+          &:hover {
+            background: #fefefe;
+          }
+
+          &.open {
+            background: #f2f3f5;
+
+            .custom-faq-q {
+              h2 {
+                color: #8e909a;
+              }
+
+              .faq-icon {
+                background: #161719;
+
+                &::before {
+                  opacity: 0;
+                }
+              }
+            }
+
+            .custom-faq-a {
+              grid-template-rows: 1fr;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @keyframes blink-caret {
+    from,
+    to {
+      opacity: 0;
+    }
+
+    50% {
+      opacity: 1;
+    }
+  }
+
+  .fliping-content-section {
+    .fliping-overlay {
+      background: #0000007a;
+      backdrop-filter: blur(20px);
+      position: fixed;
+      inset: 0;
+      display: none;
+      transition: opacity 0.5s ease;
+      opacity: 0;
+      z-index: 9999;
+
+      &.show {
+        display: block;
+      }
+
+      &.anim {
+        opacity: 1;
+      }
+    }
+
+    .rotating-section-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      perspective: 2000px;
+      margin: 50px auto;
+
+      &:has(.toggle) {
+        z-index: 99999;
+        position: relative;
+      }
+
+      .rotating-section-content-sides-container {
+        width: 100%;
+        height: 590px;
+        border: 1.5px solid var(--primary);
+        display: flex;
+        align-items: stretch;
+        justify-content: stretch;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: all 0.6s linear;
+        border-radius: 16px;
+        transform: rotateX(180deg);
+        box-shadow: -5px 3px 10px 7px #8080804f, 9px -8px 50px 0px #bfbdbd52;
+        box-shadow: none;
+
+        &.toggle {
+          transform: rotateX(0deg);
+          box-shadow: -3px -1px 24px 4px #a4a2a24f;
+          z-index: 9999;
+        }
+
+        .rotating-content-front-side-container {
+          position: absolute;
+          inset: 0;
+          backface-visibility: hidden;
+          overflow: hidden;
+          background: #1d1d1f;
+          background: #1d1d1f;
+          /* Rotating */
+          transform: rotateX(180deg);
+          border-radius: 16px;
+          transition: all 0.3s ease;
+
+          .side-content-container {
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 0px 0 85px;
+            justify-content: space-between;
+
+            ._content {
+              width: 35%;
+              width: 37%;
+
+              .label {
+                border: 2px solid #000000;
+                border-radius: 8px;
+                background: #ffffff;
+                max-width: max-content;
+                padding: 6px 11px 6px 6px;
+                box-shadow: 3px 3px 0px black;
+
+                h3 {
+                  text-transform: uppercase;
+                  font-family: "Space Grotesk";
+                  font-size: 13.02px;
+                  font-weight: 700;
+                  line-height: 16.8px;
+                  letter-spacing: 0.2800000011920929px;
+                  color: #161616;
+                }
+              }
+
+              .title {
+                margin: 45px 0 0 0;
+
+                h2 {
+                  font-family: "Inter";
+                  font-size: 60px;
+                  font-weight: 600;
+                  line-height: 65px;
+
+                  &.static {
+                    color: #146ef5;
+                  }
+
+                  &.dynamic {
+                    min-height: 70px;
+                    color: #808081;
+
+                    .blinker {
+                      position: relative;
+                      background: #808081;
+                      height: 56px;
+                      width: 2px;
+                      display: inline-block;
+                      transform: translate(-10px, 10px);
+                      opacity: 0;
+                      animation: blink-caret 0.75s step-end infinite;
+                    }
+                  }
+                }
+              }
+
+              .sub-title {
+                margin-top: 15px;
+
+                p {
+                  font-family: "Inter";
+                  font-size: 20px;
+                  font-weight: 400;
+                  line-height: 27px;
+                  letter-spacing: 0.10000000149011612px;
+                  color: #ffffff;
+                }
+              }
+            }
+
+            .rotating-card-img {
+              width: 60%;
+
+              img {
+                width: 100%;
+              }
+
+              &.small-image {
+                img {
+                  width: 86%;
+                  margin: 0 auto 0 0;
+                  display: block;
+                }
+              }
+            }
+
+            .side-toggle-btn {
+              position: absolute;
+              bottom: 44px;
+              right: 40px;
+
+              button {
+                width: 40px;
+                aspect-ratio: 1/1;
+                background-color: white;
+                border: none;
+                outline: none;
+                display: grid;
+                place-items: center;
+                border-radius: 50%;
+                font-size: 24px;
+                color: #1d1d1f;
+                transition: all 0.3s ease;
+                cursor: pointer;
+
+                &:hover {
+                  background: black;
+                }
+              }
+            }
+          }
+
+          &:hover {
+            /* box-shadow: 0px 0px 103px 70px rgba(40, 54, 248, 0.39); */
+            box-shadow: 0px 0px 87px 13px rgba(40, 54, 248, 0.38);
+
+            .side-content-container {
+              background: #2835f8;
+
+              ._content {
+                .title {
+                  h2 {
+                    &.static {
+                      color: #ffffff !important;
+                    }
+
+                    &.dynamic {
+                      color: #ffffff;
+
+                      .blinker {
+                        background: #ffffff;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
+            .side-toggle-btn {
+              button {
+                color: #2835f8;
+              }
+            }
+          }
+        }
+
+        .rotating-content-back-side-container {
+          background: #ffffff;
+          border-radius: 16px;
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          z-index: -1;
+          width: 100%;
+          backface-visibility: hidden;
+          overflow: hidden;
+
+          &.reverse-img {
+            .backside-content-container {
+              flex-direction: row-reverse;
+
+              .backside-content-img {
+                width: 44%;
+
+                .svg-icon {
+                  width: 120px;
+                  left: -72px;
+                  top: 16px;
+                }
+              }
+
+              ._content {
+                width: 48%;
+                padding-right: 6%;
+              }
+            }
+          }
+
+          .backside-content-container {
+            padding: 0 0px 0 85px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+
+            &:has(._8-icon) {
+              padding: 0;
+
+              .backside-content-img {
+                width: 46%;
+              }
+            }
+
+            ._content {
+              width: 33%;
+
+              h2 {
+                font-family: "Inter";
+                font-size: 20px;
+                font-weight: 700;
+                line-height: 25px;
+                letter-spacing: 0.23100000619888306px;
+                color: #1d1d1f;
+              }
+
+              .desc {
+                margin-top: 20px;
+
+                p {
+                  font-family: "Inter";
+                  font-size: 20px;
+                  font-weight: 600;
+                  line-height: 25px;
+                  letter-spacing: 0.23100000619888306px;
+                  color: #6e6e73;
+                }
+              }
+
+              a {
+                display: block;
+                margin-top: 20px;
+                font-family: "Inter";
+                font-size: 18px;
+                font-weight: 500;
+                line-height: 25px;
+                letter-spacing: 0.23100000619888306px;
+                color: #0066cc;
+                text-decoration: none;
+
+                &:hover {
+                  text-decoration: underline;
+                }
+              }
+            }
+
+            .backside-content-img {
+              width: 60%;
+              position: relative;
+
+              .svg-icon {
+                position: absolute;
+                width: 90px;
+                left: -15px;
+                top: -27px;
+
+                &.khala-icon {
+                  left: 18px;
+                  top: 120px;
+                }
+
+                &._8-icon {
+                  top: unset;
+                  left: unset;
+                  right: -45px;
+                  bottom: 50px;
+                }
+
+                img {
+                  width: 100%;
+                }
+              }
+
+              img {
+                width: 100%;
+              }
+            }
+
+            .side-toggle-btn {
+              position: absolute;
+              bottom: 44px;
+              right: 40px;
+
+              button {
+                width: 40px;
+                aspect-ratio: 1/1;
+                background-color: #000000;
+                color: #ffffff;
+                border: none;
+                outline: none;
+                display: grid;
+                place-items: center;
+                border-radius: 50%;
+                font-size: 24px;
+                transition: all 0.3s ease;
+                cursor: pointer;
+                transform: rotate(45deg);
+
+                &:hover {
+                  transform: rotate(135deg);
+                  /* color: #131314; */
+                  background: #5d5f68;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.color-theme-pink {
+        .rotating-section-content-sides-container {
+          .rotating-content-front-side-container {
+            .side-content-container {
+              ._content {
+                .title {
+                  h2 {
+                    &.static {
+                      color: #ed52cb;
+                    }
+                  }
+                }
+              }
+            }
+
+            &:hover {
+              box-shadow: 0px 0px 87px 13px rgb(237, 82, 203, 0.39);
+
+              .side-content-container {
+                background: #ed52cb;
+
+                .side-toggle-btn {
+                  button {
+                    color: #ed52cb;
+                  }
+                }
+              }
+            }
+          }
+
+          .rotating-content-back-side-container {
+            .backside-content-container {
+              ._content {
+                a {
+                  color: #ed52cb;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.color-theme-green {
+        .rotating-section-content-sides-container {
+          .rotating-content-front-side-container {
+            .side-content-container {
+              ._content {
+                .title {
+                  h2 {
+                    &.static {
+                      color: #00d710;
+                    }
+                  }
+                }
+              }
+            }
+
+            &:hover {
+              box-shadow: 0px 0px 87px 13px rgb(0, 215, 16, 0.39);
+
+              .side-content-container {
+                background: #00d710;
+
+                .side-toggle-btn {
+                  button {
+                    color: #00d710;
+                  }
+                }
+              }
+            }
+          }
+
+          .rotating-content-back-side-container {
+            overflow: hidden;
+
+            .backside-content-container {
+              ._content {
+                a {
+                  color: #00d710;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.color-theme-orange {
+        .rotating-section-content-sides-container {
+          .rotating-content-front-side-container {
+            .side-content-container {
+              ._content {
+                .title {
+                  h2 {
+                    &.static {
+                      color: #ff6b00;
+                    }
+                  }
+                }
+              }
+            }
+
+            &:hover {
+              box-shadow: 0px 0px 87px 13px rgb(255, 107, 0, 0.39);
+
+              .side-content-container {
+                background: #ff6b00;
+
+                .side-toggle-btn {
+                  button {
+                    color: #ff6b00;
+                  }
+                }
+              }
+            }
+          }
+
+          .rotating-content-back-side-container {
+            .backside-content-container {
+              ._content {
+                a {
+                  color: #ff6b00;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .rotating-section-popup-main {
+      width: 100vw;
+      height: 100vh;
+      inset: 0;
+      position: fixed;
+      overflow: auto;
+      background: #0000007a;
+      backdrop-filter: blur(20px);
+      display: none;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 9999999999;
+
+      &.show {
+        display: block;
+      }
+
+      &.anim {
+        opacity: 1;
+      }
+
+      /* padding: 100px 90px; */
+      .rotating-section-popup-container {
+        background: white;
+        max-width: 1260px;
+        margin: 100px auto;
+        border-radius: 18px;
+        padding-bottom: 100px;
+
+        .rotating-section-popup-close-btn {
+          height: 0;
+          margin-left: auto;
+          max-width: max-content;
+          position: sticky;
+          top: 0px;
+
+          button {
+            display: grid;
+            width: 36px;
+            aspect-ratio: 1 / 1;
+            border: none;
+            outline: none;
+            font-size: 20px;
+            margin: 0px 17px 0 0;
+            border-radius: 50%;
+            place-items: center;
+            background: #333336;
+            color: #d6d6d7;
+            transition: all 0.3s ease;
+            transform: translateY(20px);
+
+            &:hover {
+              transform: translateY(20px) rotate(90deg);
+              cursor: pointer;
+              background: #333336;
+            }
+          }
+        }
+
+        .rotating-section-popup-content-container {
+          .fliping-popup-hero-content {
+            background: linear-gradient(
+              179.62deg,
+              #eaebde 24.98%,
+              #d8d2d3 52.05%,
+              #c5d7f7 90.37%
+            );
+            padding: 138px 138px 80px 138px;
+            border-radius: 18px 18px 0 0;
+
+            .text-content-img {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+
+              ._content {
+                max-width: 500px;
+                width: 65%;
+
+                h2 {
+                  font-family: "Inter";
+                  font-size: 42px;
+                  font-weight: 500;
+                  line-height: 49.54px;
+                  letter-spacing: -1.9819999933242798px;
+                  color: #161719;
+                }
+
+                p {
+                  font-family: "Inter";
+                  font-size: 17px;
+                  font-weight: 400;
+                  line-height: 20.88px;
+                  letter-spacing: -0.4569999873638153px;
+                  color: #000000;
+                  max-width: 450px;
+                  margin-top: 25px;
+                }
+              }
+
+              .image {
+                max-width: 332px;
+                width: 35%;
+
+                img {
+                  width: 100%;
+                }
+              }
+            }
+
+            .text-content-slider {
+              margin-top: 40px;
+              background: white;
+              padding: 40px 30px 20px;
+              border-radius: 18px;
+
+              .fliping-popup-swiper {
+                .swiper-wrapper {
+                  height: unset;
+                  max-height: max-content;
+
+                  .swiper-slide {
+                    .slide-container {
+                      h5 {
+                        font-family: "Inter";
+                        font-size: 13.3px;
+                        font-weight: 500;
+                        letter-spacing: -0.4000000059604645px;
+                        padding: 2px 8px;
+                        background: #000000;
+                        color: #ffffff;
+                        max-width: max-content;
+                        border-radius: 5px;
+                        text-transform: uppercase;
+                      }
+
+                      h2 {
+                        margin: 20px 0;
+                        font-family: "Inter";
+                        font-size: 26.7px;
+                        font-weight: 500;
+                        line-height: 38px;
+                        letter-spacing: -1.0670000314712524px;
+                        color: #6e6e73;
+
+                        span {
+                          color: #1d1d1f;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+
+              .fliping-popup-slider-btns {
+                display: flex;
+                justify-content: right;
+                gap: 8px;
+
+                button {
+                  width: 44px;
+                  aspect-ratio: 1/1;
+                  display: grid;
+                  place-items: center;
+                  border: 1px solid #0d0628;
+                  outline: none;
+                  background: white;
+                  transition: all 0.3s ease;
+                  border-radius: 8px;
+                  cursor: pointer;
+
+                  svg {
+                    transition: all 0.3s ease;
+                    fill: #161719;
+                    width: 20px;
+                  }
+
+                  &:disabled {
+                    border: 1px solid #0d062833;
+                    cursor: default;
+
+                    svg {
+                      fill: #16171933;
+                    }
+                  }
+
+                  &:hover:not(:disabled) {
+                    background: #0d0628;
+
+                    svg {
+                      fill: white;
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          .fliping-popup-service-container {
+            padding: 90px 70px;
+
+            h2 {
+              font-family: "Inter";
+              font-size: 38px;
+              font-weight: 500;
+              line-height: 52px;
+              letter-spacing: -0.10000000149011612px;
+              color: #1d1d1f;
+            }
+
+            .fliping-service-text-img-content {
+              margin: 40px 0 0 0;
+              padding: 80px 0 0 0;
+              background: #f5f5f7;
+              border-radius: 28px 28px 0 28px;
+
+              h3 {
+                width: 80%;
+                margin: 0 auto;
+                font-family: "Inter";
+                font-size: 26.7px;
+                font-weight: 500;
+                line-height: 38px;
+                letter-spacing: -1.0670000314712524px;
+                color: #6e6e73;
+
+                span {
+                  color: #1d1d1f;
+                }
+              }
+
+              img {
+                margin-top: 30px;
+                width: 64%;
+                margin-left: auto;
+                display: block;
+              }
+            }
+          }
+
+          .fliping-popup-benefits-container {
+            padding: 0 70px 90px 70px;
+
+            h2 {
+              font-family: "Inter";
+              font-size: 38px;
+              font-weight: 500;
+              line-height: 31.92px;
+              letter-spacing: -1.1200000047683716px;
+              color: #1e1e1e;
+            }
+
+            ul {
+              margin-top: 42px;
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 30px;
+              list-style: none;
+
+              li {
+                border: 1px solid #dfe0e4;
+                padding: 60px 32px;
+                border-radius: 18px;
+
+                img {
+                  width: 45px;
+                }
+
+                h5 {
+                  font-family: "Inter";
+                  font-size: 22px;
+                  font-weight: 500;
+                  line-height: 30.41px;
+                  color: #161719;
+                  margin: 18px 0 6px;
+                }
+
+                p {
+                  font-family: "Inter";
+                  font-size: 16px;
+                  font-weight: 400;
+                  line-height: 30px;
+                  color: #000;
+                }
+              }
+            }
+          }
+
+          .flip-popup-faq-container {
+            padding: 0 70px 0px 70px;
+
+            .title {
+              border-top: 1px solid #dfe0e4;
+
+              h2 {
+                margin-top: 20px;
+                font-family: "Inter";
+                font-size: 28px;
+                font-weight: 400;
+                line-height: 31.92px;
+                letter-spacing: -1.1200000047683716px;
+                color: #1e1e1e;
+
+                span {
+                  padding-right: 4px;
+                  font-weight: 600;
+                }
+              }
+            }
+
+            .custom-faqs-container {
+              margin: 40px 0;
+            }
+
+            .contact-btn {
+              a {
+                margin: 0 auto;
+                text-decoration: none;
+              }
+            }
+          }
+
+          .fliping-popup-video-gallery-container {
+            padding: 110px 30px;
+            background: #121212;
+            margin-bottom: 80px;
+
+            .fliping-popup-video-gallery {
+              .fliping-video-gallery-headings {
+                display: flex;
+
+                .titles {
+                  h3 {
+                    font-family: "Inter";
+                    font-size: 26px;
+                    font-weight: 500;
+                    line-height: 43.2px;
+                    letter-spacing: -0.7200000286102295px;
+                    color: #a7a7a7;
+                  }
+
+                  h1 {
+                    font-family: "Inter";
+                    font-size: 62px;
+                    font-weight: 500;
+                    line-height: 96.8px;
+                    letter-spacing: -1.7599999904632568px;
+                    color: #ffffff;
+                  }
+                }
+
+                .desc {
+                  width: 546px;
+                  margin-left: auto;
+
+                  p {
+                    font-family: "Inter";
+                    font-size: 19.22px;
+                    font-weight: 400;
+                    line-height: 30px;
+                    text-align: left;
+                    color: #f1f0ee;
+                  }
+                }
+              }
+
+              .custom_gallery-section {
+                width: 100%;
+
+                .c-container {
+                  max-width: 1650px;
+                  width: 100%;
+                  margin: 0 auto;
+
+                  .c-btns {
+                    width: 100%;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    padding: 30px 0;
+
+                    button {
+                      font-family: "Inter";
+                      font-weight: 900;
+                      line-height: 28px;
+                      font-size: 11.2px;
+                      padding: 12px 33px;
+                      background-color: none;
+                      background: none;
+                      background-color: #6e00f2;
+                      background-color: #5c6170;
+                      transition: all 0.3s ease;
+                      border-radius: 8px;
+                      color: #fff;
+                      border: none;
+                      outline: none;
+                      cursor: pointer;
+
+                      &:hover,
+                      &.active {
+                        background-color: #ffffff;
+                        color: black;
+                      }
+                    }
+                  }
+
+                  .custom_gallery-cards {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 20px;
+                    padding: 10px 0 50px 0;
+
+                    .custom_gallery-card {
+                      width: 100%;
+                      min-height: 0;
+                      opacity: 0;
+                      display: none;
+                      transition: all 0.6s ease;
+
+                      /* transform: scale(0); */
+                      &.anim {
+                        /* transform: scale(1); */
+                        opacity: 1;
+                      }
+
+                      &.show {
+                        display: block;
+                      }
+
+                      .box {
+                        width: 100%;
+                        border-radius: 12px;
+                        overflow: hidden;
+                        transition: all 0.3s ease;
+                        cursor: pointer;
+
+                        img {
+                          transition: all 0.3s ease;
+                          border-radius: 12px;
+                          width: 100%;
+                          object-fit: cover;
+                        }
+
+                        &:hover {
+                          transform: scale(0.9);
+
+                          img {
+                            transform: scale(1.1);
+                          }
+                        }
+                      }
+
+                      &.show-popup .popup {
+                        display: grid;
+                      }
+
+                      &.anim-popup .popup {
+                        opacity: 1;
+
+                        .overlay {
+                          opacity: 1;
+                        }
+
+                        .video-container {
+                          transform: scale(1) translateY(00px);
+                        }
+                      }
+
+                      .popup {
+                        display: none;
+                        position: fixed;
+                        inset: 0;
+                        place-items: center;
+                        opacity: 0;
+                        transition: all 0.3s ease;
+
+                        .overlay {
+                          position: absolute;
+                          inset: 0;
+                          background: #2c2c2c3b;
+                          backdrop-filter: blur(3px);
+                          transition: all 0.3s ease;
+                          opacity: 0;
+                        }
+
+                        .video-container {
+                          max-width: 1000px;
+                          width: 96%;
+                          position: absolute;
+                          padding: 50px;
+                          border-radius: 20px;
+                          background: white;
+                          background: #121212;
+                          overflow: hidden;
+                          transition: all 0.3s ease;
+                          transform: scale(1) translateY(200px);
+
+                          .close-icon {
+                            i {
+                              position: absolute;
+                              right: 32px;
+                              top: 32px;
+                              cursor: pointer;
+                              width: 36px;
+                              aspect-ratio: 1/1;
+                              display: grid;
+                              border-radius: 50%;
+                              place-items: center;
+                              background: white;
+                              color: #121212;
+                              z-index: 3;
+                              font-size: 20px;
+                              transition: all 0.3s ease;
+
+                              &:hover {
+                                background: rgb(114, 114, 114);
+                                color: white;
+                                rotate: 90deg;
+                              }
+                            }
+                          }
+
+                          video {
+                            border-radius: 20px;
+                            overflow: hidden;
+                            width: 100%;
+                          }
+
+                          .play-pause-btn {
+                            width: 76px;
+                            aspect-ratio: 1/1;
+                            display: grid;
+                            place-items: center;
+                            background: #141414;
+                            border-radius: 50%;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            opacity: 0;
+
+                            i {
+                              position: absolute;
+                              color: #ececf0;
+                              font-size: 26px;
+                              opacity: 0;
+                            }
+
+                            i.fa-play {
+                              opacity: 1;
+                              margin-left: 2px;
+                            }
+
+                            &.played {
+                              i.fa-pause {
+                                opacity: 1;
+                              }
+
+                              i.fa-play {
+                                opacity: 0;
+                              }
+                            }
+                          }
+
+                          &:hover {
+                            .play-pause-btn {
+                              opacity: 1;
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+
+              @media (max-width: 800px) {
+                .custom_gallery-section {
+                  .c-container {
+                    .c-btns {
+                      button {
+                        padding: 8px 28px;
+                      }
+                    }
+
+                    .custom_gallery-cards {
+                      grid-template-columns: repeat(1, 1fr);
+                    }
+                  }
+                }
+              }
+
+              @media (max-width: 600px) {
+                .custom_gallery-section {
+                  & .c-container {
+                    & .custom_gallery-cards {
+                      & .custom_gallery-card {
+                        .popup {
+                          .video-container {
+                            padding: 20px;
+
+                            .close-icon {
+                              i {
+                                right: 10px;
+                                top: 7px;
+                                width: 32px;
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
+            .fliping-video-gallery-btn {
+              display: flex;
+              justify-content: center;
+
+              ._btn {
+                border: 2px solid #ffffff;
+                font-family: "Inter";
+                font-size: 15.38px;
+                font-weight: 500;
+                line-height: 16px;
+                text-decoration: none;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* ((((((((((((((((((((((((((((((())))))))))))))))))))))))))))))) */
+  @media (max-width: 1440px) {
+    .fliping-content-section {
+      .rotating-section-container {
+        max-width: 85%;
+
+        .rotating-section-content-sides-container {
+          .rotating-content-front-side-container {
+            .side-content-container {
+              padding: 0 0 0 50px;
+
+              ._content {
+                .title {
+                  h2 {
+                    font-size: 50px;
+                    line-height: 56px;
+                  }
+                }
+              }
+            }
+          }
+
+          .rotating-content-back-side-container {
+            .backside-content-container {
+              padding: 0 0 0 50px;
+            }
+          }
+        }
+      }
+    }
+
+    .fliping-content-section {
+      .rotating-section-popup-main {
+        .rotating-section-popup-container {
+          max-width: 85%;
+
+          .rotating-section-popup-content-container {
+            .fliping-popup-hero-content {
+              padding: 100px 100px 80px 100px;
+
+              .text-content-img {
+                ._content {
+                  h2 {
+                    font-size: 38px;
+                  }
+                }
+              }
+            }
+
+            .flip-popup-faq-container {
+              .custom-faqs-container {
+                padding: 40px 10px;
+              }
+            }
+
+            .fliping-popup-video-gallery-container {
+              .fliping-popup-video-gallery {
+                .fliping-video-gallery-headings {
+                  .titles {
+                    h1 {
+                      font-size: 54px;
+                      line-height: 74px;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .fliping-content-section {
+      .rotating-section-container {
+        .rotating-section-content-sides-container {
+          height: 700px;
+
+          .rotating-content-front-side-container {
+            .side-content-container {
+              flex-direction: column;
+              padding: 50px;
+
+              ._content {
+                width: 100%;
+              }
+
+              .rotating-card-img {
+                width: 100%;
+                margin-top: 30px;
+
+                img {
+                  margin: 0 auto;
+                  display: block;
+                  max-width: 650px;
+                }
+              }
+            }
+
+            &:hover {
+              .side-content-container {
+                ._content {
+                  .title {
+                    margin: 20px 0 0 0;
+                  }
+                }
+              }
+            }
+          }
+
+          .rotating-content-back-side-container {
+            .backside-content-container {
+              padding: 50px !important;
+              flex-direction: column !important;
+
+              ._content {
+                width: 100% !important;
+              }
+
+              .backside-content-img {
+                width: 100% !important;
+
+                img {
+                  margin: 0 auto;
+                  display: block;
+                  max-width: 650px;
+                }
+              }
+            }
+
+            &.reverse-img {
+              .backside-content-container {
+                .backside-content-img {
+                  max-width: 570px !important;
+                  margin-top: 40px;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .rotating-section-popup-main {
+        .rotating-section-popup-container {
+          margin: 70px auto;
+          padding-bottom: 70px;
+
+          .rotating-section-popup-content-container {
+            .fliping-popup-hero-content {
+              padding: 70px;
+
+              .text-content-img {
+                ._content {
+                  h2 {
+                    font-size: 36px;
+                  }
+                }
+              }
+
+              .text-content-slider {
+                .fliping-popup-swiper {
+                  .swiper-wrapper {
+                    .swiper-slide {
+                      .slide-container {
+                        h2 {
+                          font-size: 24px;
+                          font-weight: 500;
+                          line-height: 34px;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
+            .fliping-popup-service-container {
+              padding: 70px 50px;
+
+              h2 {
+                font-size: 34px;
+                line-height: 42px;
+              }
+
+              .fliping-service-text-img-content {
+                padding: 0;
+
+                h3 {
+                  padding: 40px 40px 0;
+                  width: 100%;
+                }
+              }
+            }
+
+            .fliping-popup-benefits-container {
+              padding: 0 50px 70px 50px;
+
+              h2 {
+                font-size: 34px;
+              }
+
+              ul {
+                gap: 20px;
+
+                li {
+                  padding: 34px 28px;
+                }
+              }
+            }
+
+            .flip-popup-faq-container {
+              padding: 0 40px 0px 40px;
+            }
+
+            .fliping-popup-video-gallery-container {
+              padding: 60px 30px;
+
+              .fliping-popup-video-gallery {
+                .fliping-video-gallery-headings {
+                  flex-direction: column;
+                  gap: 20px;
+                  margin-bottom: 20px;
+
+                  .titles {
+                    width: 100%;
+
+                    h3 {
+                      font-size: 22px;
+                      font-weight: 500;
+                      line-height: 34px;
+                    }
+
+                    h1 {
+                      font-size: 46px;
+                      line-height: 65px;
+                    }
+                  }
+
+                  .desc {
+                    width: 100%;
+                  }
+                }
+
+                .custom_gallery-section {
+                  .c-container {
+                    .c-btns {
+                      button {
+                        padding: 6px 22px;
+                      }
+                    }
+
+                    .custom_gallery-cards {
+                      .custom_gallery-card {
+                        .popup {
+                          .video-container {
+                            width: 80%;
+                            padding: 25px;
+
+                            .close-icon {
+                              i {
+                                right: 14px;
+                                top: 14px;
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 767px) {
+    .fliping-content-section {
+      .rotating-section-popup-main {
+        .rotating-section-popup-container {
+          margin: 20px 0 0 0;
+          border-radius: 20px 20px 0 00;
+          max-width: 100%;
+
+          .rotating-section-popup-content-container {
+            .fliping-popup-hero-content {
+              border-radius: 20px 20px 0 0;
+              padding: 50px;
+
+              .text-content-img {
+                ._content {
+                  max-width: 85%;
+                  width: 100%;
+                }
+
+                .image {
+                  display: none;
+                }
+              }
+            }
+
+            .fliping-popup-benefits-container {
+              ul {
+                grid-template-columns: 1fr;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    .fliping-content-section {
+      .rotating-section-container {
+        max-width: 90%;
+
+        .rotating-section-content-sides-container {
+          height: unset;
+          aspect-ratio: 1 / 1.3;
+
+          .rotating-content-front-side-container {
+            .side-content-container {
+              padding: 25px;
+
+              ._content {
+                .title {
+                  margin: 25px 0 0 0;
+
+                  h2 {
+                    font-size: 40px;
+                    line-height: 46px;
+
+                    &.dynamic {
+                      .blinker {
+                        height: 44px;
+                        transform: translate(-10px, 7px);
+                      }
+                    }
+                  }
+                }
+
+                .sub-title {
+                  margin: 0;
+
+                  p {
+                    font-size: 13px;
+                    font-weight: 400;
+                    line-height: 22px;
+                  }
+                }
+              }
+
+              .rotating-card-img {
+                img {
+                  width: 110%;
+                  margin-left: -5%;
+                }
+              }
+
+              .side-toggle-btn {
+                bottom: 20px;
+                right: 20px;
+              }
+            }
+          }
+
+          .rotating-content-back-side-container {
+            .backside-content-container {
+              padding: 30px !important;
+              flex-direction: column-reverse !important;
+              justify-content: center;
+              gap: 30px;
+
+              ._content {
+                .desc {
+                  p {
+                    font-size: 18px;
+                  }
+                }
+
+                a {
+                  font-size: 18px;
+                  span {
+                    br {
+                      display: none;
+                    }
+                  }
+                }
+              }
+
+              .backside-content-img {
+                .svg-icon {
+                  position: static;
+                }
+
+                div:not(.svg-icon) {
+                  display: none;
+                }
+              }
+
+              .side-toggle-btn {
+                bottom: 20px;
+                right: 20px;
+              }
+            }
+          }
+        }
+      }
+
+      .rotating-section-popup-main {
+        .rotating-section-popup-container {
+          .rotating-section-popup-content-container {
+            .fliping-popup-hero-content {
+              padding: 30px 20px 40px;
+
+              .text-content-img {
+                ._content {
+                  h2 {
+                    font-size: 30px;
+                    line-height: 40px;
+                  }
+                }
+              }
+
+              .text-content-slider {
+                padding: 30px 20px 20px;
+
+                .fliping-popup-swiper {
+                  .swiper-wrapper {
+                    .swiper-slide {
+                      .slide-container {
+                        h2 {
+                          font-size: 20px;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
+            .fliping-popup-service-container {
+              padding: 40px 20px;
+
+              h2 {
+                font-size: 28px;
+                line-height: 30px;
+              }
+
+              .fliping-service-text-img-content {
+                margin: 20px 0 0 0;
+
+                h3 {
+                  padding: 20px 20px 0;
+                  font-size: 20px;
+                }
+              }
+            }
+
+            .fliping-popup-benefits-container {
+              padding: 0 20px 50px 20px;
+
+              h2 {
+                font-size: 30px;
+              }
+
+              ul {
+                margin-top: 24px;
+                gap: 16px;
+
+                li {
+                  padding: 28px 24px;
+
+                  h5 {
+                    font-size: 20px;
+                  }
+
+                  p {
+                    font-size: 14px;
+                    line-height: 22px;
+                  }
+                }
+              }
+            }
+
+            .flip-popup-faq-container {
+              padding: 0 20px;
+
+              .title {
+                h2 {
+                  font-size: 22px;
+                  line-height: 32px;
+                }
+              }
+
+              .custom-faqs-container {
+                margin: 0px 0;
+                padding: 40px 0px;
+
+                ul {
+                  li {
+                    .custom-faq {
+                      padding: 15px 15px;
+
+                      .custom-faq-q {
+                        h2 {
+                          font-size: 18px;
+                          line-height: 26.92px;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
+            .fliping-popup-video-gallery-container {
+              margin-bottom: 50px;
+              padding: 40px 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+</style>
+
+<section class="fliping-content-section" data-flip-card-container-identifier>
+  <!-- Overlay -->
+  <div class="fliping-overlay" data-fliping-overlay></div>
+
+  <!-- Toggle Container -->
+  <div class="rotating-section-container">
+    <div class="rotating-section-content-sides-container" data-toggle-card-flip>
+      <!-- Front Side -->
+      <div class="rotating-content-front-side-container">
+        <div class="side-content-container">
+          <!-- Left Sided Content -->
+          <div class="_content">
+            <div class="label">
+              <h3>Generative AI Solutions</h3>
+            </div>
+            <div class="title">
+              <h2 class="static"> Conversational </h2>
+              <h2 class="dynamic" data-write-infinite-text>
+                <span> AI Integration </span>
+                <span class="blinker"></span>
+              </h2>
+            </div>
+            <div class="sub-title">
+              <p>ChatGPT-powered, real-time support.</p>
+            </div>
+          </div>
+          <!-- Right Sided Image -->
+          <div class="rotating-card-img">
+            <div>
+              <img
+                src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/ai-services-img-01.png"
+                alt="#" />
+            </div>
+          </div>
+          <!-- Side Toggle Btn -->
+          <div class="side-toggle-btn">
+            <button data-flip-toggle-btn>
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Back Side -->
+      <div class="rotating-content-back-side-container">
+        <div class="backside-content-container">
+          <!-- Left Sided Content -->
+          <div class="_content">
+            <h2> AI-Powered Personalization </h2>
+            <div class="desc">
+              <p>
+                Boost sales by tailoring product recommendations to each
+                customer's preferences. Deliver a more relevant and engaging
+                shopping experience.
+              </p>
+            </div>
+            <a href="openPopup" data-learn-more-popup-open-btn>
+              <span>
+                Learn more about integrating <br />
+                conversational AI into your business.
+              </span>
+            </a>
+          </div>
+          <!-- Right Sided Image -->
+          <div class="backside-content-img">
+            <div class="svg-icon">
+              <img
+                src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/sun-flower-icon.svg"
+                alt="#" />
+            </div>
+            <div>
+              <img
+                src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/ai-services-img-01.png"
+                alt="#" />
+            </div>
+          </div>
+          <!-- Side Toggle Btn -->
+          <div class="side-toggle-btn">
+            <button data-flip-toggle-btn>
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup -->
+  <div
+    class="rotating-section-popup-main"
+    data-flip-card-toggle-popup-container>
+    <div class="rotating-section-popup-container">
+      <div class="rotating-section-pupop-body">
+        <!-- Close Btn -->
+        <div class="rotating-section-popup-close-btn">
+          <button class="c_popup-close-btn" data-flip-popup-close-btn>
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Popup Container -->
+        <div class="rotating-section-popup-content-container">
+          <!-- Hero Content -->
+          <div class="fliping-popup-hero-content">
+            <!-- Text + Content -->
+            <div class="text-content-img">
+              <div class="_content">
+                <h2> Transform Your Campaigns with AI-Enhanced Media </h2>
+                <p>
+                  Discover how AI can elevate your brand with high-impact,
+                  data-driven creative content, ensuring better engagement and
+                  conversion rates.
+                </p>
+              </div>
+              <div class="image">
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/popup-img-01.png"
+                  alt="#" />
+              </div>
+            </div>
+            <!-- Slider -->
+            <div class="text-content-slider">
+              <div class="slider-container">
+                <!-- Slider main container -->
+                <div class="fliping-popup-swiper swiper">
+                  <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <div class="swiper-slide">
+                      <div class="slide-container">
+                        <h5> HyperFlow Benefits </h5>
+                        <h2>
+                          <span>
+                            While many have access to AI tools, at HyperFlow, we
+                            take it a step further.
+                          </span>
+                          Our team is laser-focused on the latest tools,
+                          features, and AI innovations. With a creative and
+                          technological background, we experiment daily to
+                          deliver better results that are tailored to your
+                          brand's unique needs. Leave the complexities to us,
+                          and get AI-powered media that’s optimized for
+                          success." This introduction positions HyperFlow as the
+                          expert that goes beyond just using AI tools — we are
+                          constantly evolving and experimenting with new
+                        </h2>
+                      </div>
+                    </div>
+                    <!-- Slides -->
+                    <div class="swiper-slide">
+                      <div class="slide-container">
+                        <h5> HyperFlow Benefits </h5>
+                        <h2>
+                          <span>
+                            While many have access to AI tools, at HyperFlow, we
+                            take it a step further.
+                          </span>
+                          Our team is laser-focused on the latest tools,
+                          features, and AI innovations. With a creative and
+                          technological background, we experiment daily to
+                          deliver better results that are tailored to your
+                          brand's unique needs. Leave the complexities to us,
+                          and get AI-powered media that’s optimized for
+                          success." This introduction positions HyperFlow as the
+                          expert that goes beyond just using AI tools — we are
+                          constantly evolving and experimenting with new
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="fliping-popup-slider-btns">
+                  <!-- Left Arrow -->
+                  <button class="fliping-popup-slider-btn prev" disabled>
+                    <svg
+                      viewBox="0 0 22 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M21.5295 7.10979L4.92079 7.10978C9.41333 4.52319 10.6152 0.611297 10.6753 0.400636L8.95233 -0.0917953C8.88416 0.137532 7.20697 5.52138 -0.0605481 7.13112L0.135871 7.99865L-0.0596515 8.86618C7.20697 10.4759 8.88416 15.8598 8.95232 16.0882L10.6762 15.5958C10.6152 15.3851 9.41333 11.4741 4.92079 8.88751L21.5295 8.88752L21.5295 7.10979Z" />
+                    </svg>
+                  </button>
+
+                  <!-- Right Arrow -->
+                  <button class="fliping-popup-slider-btn next">
+                    <svg
+                      viewBox="0 0 22 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M-0.000155773 8.97859L16.6085 8.97859C12.116 11.5652 10.9141 15.4771 10.854 15.6877L12.577 16.1802C12.6451 15.9508 14.3223 10.567 21.5898 8.95726L21.3934 8.08973L21.5889 7.2222C14.3223 5.61246 12.6451 0.228613 12.577 0.000174688L10.8531 0.492603C10.9141 0.703264 12.116 4.61427 16.6085 7.20087L-0.000155618 7.20086L-0.000155773 8.97859Z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Service Container -->
+          <div class="fliping-popup-service-container">
+            <h2> Additional Text Section </h2>
+            <div class="fliping-service-text-img-content">
+              <h3>
+                <span>
+                  While many have access to AI tools, at HyperFlow, we take it a
+                  step further.
+                </span>
+                Our team is laser-focused on the latest tools, features, and AI
+                innovations. With a creative and technological background, we
+                experiment daily to deliver better results that are tailored to
+                your brand's unique needs. Leave the complexities to us, and get
+                AI-powered media that’s optimized for success."
+              </h3>
+              <img
+                src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/tab-pencil-img.png"
+                alt="#" />
+            </div>
+          </div>
+          <!-- Benefits Container -->
+          <div class="fliping-popup-benefits-container">
+            <h2>Benefits</h2>
+            <ul>
+              <!-- Card -->
+              <li>
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/service-icon-01.svg"
+                  alt="#" />
+                <h5> Increased Conversion Rates. </h5>
+                <p>
+                  Data-driven creatives that are designed to bring results,
+                  boosting conversions significantly.
+                </p>
+              </li>
+              <!-- Card -->
+              <li>
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/service-icon-04.svg"
+                  alt="#" />
+                <h5> Time Efficiency. </h5>
+                <p>
+                  AI streamlines the creative process, allowing you to generate
+                  high-quality content faster than ever before.
+                </p>
+              </li>
+              <!-- Card -->
+              <li>
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/Group-604903.svg"
+                  alt="#" />
+                <h5> Cost Savings. </h5>
+                <p>
+                  Predictive AI scores your ad creatives, helping you optimize
+                  your ad spend by focusing on the most effective assets.
+                </p>
+              </li>
+              <!-- Card -->
+              <li>
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/service-icon-03.svg"
+                  alt="#" />
+                <h5> Customizable to Your Brand. </h5>
+                <p>
+                  AI keeps your content on-brand while allowing for greater
+                  flexibility and creativity.
+                </p>
+              </li>
+            </ul>
+          </div>
+          <!-- FAQs Container -->
+          <div class="flip-popup-faq-container">
+            <div class="title">
+              <h2>
+                <span> Frequently Asked Questions. </span> Account Management
+                PPC
+              </h2>
+            </div>
+            <div
+              class="custom-faqs-container"
+              data-custom-faq-section-identifier>
+              <ul>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="contact-btn">
+              <a href="#" class="_btn btn_dark">
+                <span>Contact Us</span>
+                <i class="fa-regular fa-arrow-right-long"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="fliping-content-section" data-flip-card-container-identifier>
+  <!-- Overlay -->
+  <div class="fliping-overlay" data-fliping-overlay></div>
+
+  <!-- Toggle Container -->
+  <div class="rotating-section-container color-theme-pink">
+    <div class="rotating-section-content-sides-container" data-toggle-card-flip>
+      <!-- Front Side -->
+      <div class="rotating-content-front-side-container">
+        <div class="side-content-container">
+          <!-- Left Sided Content -->
+          <div class="_content">
+            <div class="label">
+              <h3>Generative AI Solutions</h3>
+            </div>
+            <div class="title">
+              <h2 class="static"> AI-Enhanced Media Brand </h2>
+              <h2 class="dynamic" data-write-infinite-text>
+                <span> Campaigns </span>
+                <span class="blinker"></span>
+              </h2>
+            </div>
+            <div class="sub-title">
+              <p>AI-generated videos and images.</p>
+            </div>
+          </div>
+          <!-- Right Sided Image -->
+          <div class="rotating-card-img small-image">
+            <div>
+              <img
+                src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/fliping-card-service-04.png"
+                alt="#" />
+            </div>
+          </div>
+          <!-- Side Toggle Btn -->
+          <div class="side-toggle-btn">
+            <button data-flip-toggle-btn>
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Back Side -->
+      <div class="rotating-content-back-side-container reverse-img">
+        <div class="backside-content-container">
+          <!-- Left Sided Content -->
+          <div class="_content">
+            <h2> AI-Enhanced Media Campaigns </h2>
+            <div class="desc">
+              <p>
+                Transform your media strategy with AI-generated videos, images,
+                and voiceovers. Create high-impact content quickly and
+                efficiently.
+              </p>
+            </div>
+            <a href="openPopup" data-learn-more-popup-open-btn>
+              <span>
+                Learn more about optimizing your <br />
+                media with AI.
+              </span>
+            </a>
+          </div>
+          <!-- Right Sided Image -->
+          <div class="backside-content-img">
+            <div class="svg-icon">
+              <img
+                src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/vector-star-light.svg"
+                alt="#" />
+            </div>
+            <div>
+              <img
+                src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/fliping-card-back-service-img-02.png"
+                alt="#" />
+            </div>
+          </div>
+          <!-- Side Toggle Btn -->
+          <div class="side-toggle-btn">
+            <button data-flip-toggle-btn>
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup -->
+  <div
+    class="rotating-section-popup-main"
+    data-flip-card-toggle-popup-container>
+    <div class="rotating-section-popup-container">
+      <div class="rotating-section-pupop-body">
+        <!-- Close Btn -->
+        <div class="rotating-section-popup-close-btn">
+          <button class="c_popup-close-btn" data-flip-popup-close-btn>
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Popup Container -->
+        <div class="rotating-section-popup-content-container">
+          <!-- Hero Content -->
+          <div class="fliping-popup-hero-content">
+            <!-- Text + Content -->
+            <div class="text-content-img">
+              <div class="_content">
+                <h2> Transform Your Campaigns with AI-Enhanced Media </h2>
+                <p>
+                  Discover how AI can elevate your brand with high-impact,
+                  data-driven creative content, ensuring better engagement and
+                  conversion rates.
+                </p>
+              </div>
+              <div class="image">
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/popup-img-01.png"
+                  alt="#" />
+              </div>
+            </div>
+            <!-- Slider -->
+            <div class="text-content-slider">
+              <div class="slider-container">
+                <!-- Slider main container -->
+                <div class="fliping-popup-swiper swiper">
+                  <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <div class="swiper-slide">
+                      <div class="slide-container">
+                        <h5> HyperFlow Benefits </h5>
+                        <h2>
+                          <span>
+                            While many have access to AI tools, at HyperFlow, we
+                            take it a step further.
+                          </span>
+                          Our team is laser-focused on the latest tools,
+                          features, and AI innovations. With a creative and
+                          technological background, we experiment daily to
+                          deliver better results that are tailored to your
+                          brand's unique needs. Leave the complexities to us,
+                          and get AI-powered media that’s optimized for
+                          success." This introduction positions HyperFlow as the
+                          expert that goes beyond just using AI tools — we are
+                          constantly evolving and experimenting with new
+                        </h2>
+                      </div>
+                    </div>
+                    <!-- Slides -->
+                    <div class="swiper-slide">
+                      <div class="slide-container">
+                        <h5> HyperFlow Benefits </h5>
+                        <h2>
+                          <span>
+                            While many have access to AI tools, at HyperFlow, we
+                            take it a step further.
+                          </span>
+                          Our team is laser-focused on the latest tools,
+                          features, and AI innovations. With a creative and
+                          technological background, we experiment daily to
+                          deliver better results that are tailored to your
+                          brand's unique needs. Leave the complexities to us,
+                          and get AI-powered media that’s optimized for
+                          success." This introduction positions HyperFlow as the
+                          expert that goes beyond just using AI tools — we are
+                          constantly evolving and experimenting with new
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="fliping-popup-slider-btns">
+                  <!-- Left Arrow -->
+                  <button class="fliping-popup-slider-btn prev" disabled>
+                    <svg
+                      viewBox="0 0 22 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M21.5295 7.10979L4.92079 7.10978C9.41333 4.52319 10.6152 0.611297 10.6753 0.400636L8.95233 -0.0917953C8.88416 0.137532 7.20697 5.52138 -0.0605481 7.13112L0.135871 7.99865L-0.0596515 8.86618C7.20697 10.4759 8.88416 15.8598 8.95232 16.0882L10.6762 15.5958C10.6152 15.3851 9.41333 11.4741 4.92079 8.88751L21.5295 8.88752L21.5295 7.10979Z" />
+                    </svg>
+                  </button>
+
+                  <!-- Right Arrow -->
+                  <button class="fliping-popup-slider-btn next">
+                    <svg
+                      viewBox="0 0 22 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M-0.000155773 8.97859L16.6085 8.97859C12.116 11.5652 10.9141 15.4771 10.854 15.6877L12.577 16.1802C12.6451 15.9508 14.3223 10.567 21.5898 8.95726L21.3934 8.08973L21.5889 7.2222C14.3223 5.61246 12.6451 0.228613 12.577 0.000174688L10.8531 0.492603C10.9141 0.703264 12.116 4.61427 16.6085 7.20087L-0.000155618 7.20086L-0.000155773 8.97859Z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Service Container -->
+          <div class="fliping-popup-service-container">
+            <h2> Additional Text Section </h2>
+            <div class="fliping-service-text-img-content">
+              <h3>
+                <span>
+                  While many have access to AI tools, at HyperFlow, we take it a
+                  step further.
+                </span>
+                Our team is laser-focused on the latest tools, features, and AI
+                innovations. With a creative and technological background, we
+                experiment daily to deliver better results that are tailored to
+                your brand's unique needs. Leave the complexities to us, and get
+                AI-powered media that’s optimized for success."
+              </h3>
+              <img
+                src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/tab-pencil-img.png"
+                alt="#" />
+            </div>
+          </div>
+          <!-- Benefits Container -->
+          <div class="fliping-popup-benefits-container">
+            <h2>Benefits</h2>
+            <ul>
+              <!-- Card -->
+              <li>
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/service-icon-01.svg"
+                  alt="#" />
+                <h5> Increased Conversion Rates. </h5>
+                <p>
+                  Data-driven creatives that are designed to bring results,
+                  boosting conversions significantly.
+                </p>
+              </li>
+              <!-- Card -->
+              <li>
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/service-icon-04.svg"
+                  alt="#" />
+                <h5> Time Efficiency. </h5>
+                <p>
+                  AI streamlines the creative process, allowing you to generate
+                  high-quality content faster than ever before.
+                </p>
+              </li>
+              <!-- Card -->
+              <li>
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/Group-604903.svg"
+                  alt="#" />
+                <h5> Cost Savings. </h5>
+                <p>
+                  Predictive AI scores your ad creatives, helping you optimize
+                  your ad spend by focusing on the most effective assets.
+                </p>
+              </li>
+              <!-- Card -->
+              <li>
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/service-icon-03.svg"
+                  alt="#" />
+                <h5> Customizable to Your Brand. </h5>
+                <p>
+                  AI keeps your content on-brand while allowing for greater
+                  flexibility and creativity.
+                </p>
+              </li>
+            </ul>
+          </div>
+          <!-- Video Gallery -->
+          <div class="fliping-popup-video-gallery-container">
+            <div class="fliping-popup-video-gallery">
+              <div class="fliping-video-gallery-headings">
+                <div class="titles">
+                  <h3>AI Showcase</h3>
+                  <h1> Inspirational </h1>
+                </div>
+                <div class="desc">
+                  <p>
+                    Explore our gallery to see how AI transforms media—dynamic
+                    videos, images, and ads crafted with cutting-edge
+                    technology.
+                  </p>
+                </div>
+              </div>
+              <section class="custom_gallery-section" id="customGallerySection">
+                <div class="c-container">
+                  <!-- Buttons -->
+                  <div class="c-btns">
+                    <button data-card-label="all">All</button>
+                    <button
+                      data-card-label="social_media_design"
+                      class="active">
+                      Social Media Design
+                    </button>
+                    <button data-card-label="landing_pages"
+                      >Landing Pages</button
+                    >
+                    <button data-card-label="websites">Websites</button>
+                  </div>
+                  <!-- Cards Container -->
+                  <div class="custom_gallery-cards">
+                    <!-- Card -->
+                    <div
+                      class="custom_gallery-card"
+                      data-card-label="social_media_design">
+                      <!-- Thumbnail -->
+                      <div class="box">
+                        <div class="img">
+                          <img
+                            decoding="async"
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/img-1.png"
+                            alt="#" />
+                        </div>
+                      </div>
+                      <!-- Popup -->
+                      <div class="popup">
+                        <div class="overlay"></div>
+                        <div class="video-container">
+                          <div class="close-icon">
+                            <i class="fas fa-times"></i>
+                          </div>
+                          <video
+                            loop
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/video-1.mp4"></video>
+                          <!-- Play/Pause Btn -->
+                          <div class="play-pause-btn">
+                            <i class="fas fa-play"></i>
+                            <i class="fas fa-pause"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card -->
+                    <div
+                      class="custom_gallery-card"
+                      data-card-label="social_media_design">
+                      <!-- Thumbnail -->
+                      <div class="box">
+                        <div class="img">
+                          <img
+                            decoding="async"
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/img-3.png"
+                            alt="#" />
+                        </div>
+                      </div>
+                      <!-- Popup -->
+                      <div class="popup">
+                        <div class="overlay"></div>
+                        <div class="video-container">
+                          <div class="close-icon">
+                            <i class="fas fa-times"></i>
+                          </div>
+                          <video
+                            loop
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/video-1.mp4"></video>
+                          <!-- Play/Pause Btn -->
+                          <div class="play-pause-btn">
+                            <i class="fas fa-play"></i>
+                            <i class="fas fa-pause"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card -->
+                    <div
+                      class="custom_gallery-card"
+                      data-card-label="social_media_design">
+                      <!-- Thumbnail -->
+                      <div class="box">
+                        <div class="img">
+                          <img
+                            decoding="async"
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/img-2.png"
+                            alt="#" />
+                        </div>
+                      </div>
+                      <!-- Popup -->
+                      <div class="popup">
+                        <div class="overlay"></div>
+                        <div class="video-container">
+                          <div class="close-icon">
+                            <i class="fas fa-times"></i>
+                          </div>
+                          <video
+                            loop
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/video-1.mp4"></video>
+                          <!-- Play/Pause Btn -->
+                          <div class="play-pause-btn">
+                            <i class="fas fa-play"></i>
+                            <i class="fas fa-pause"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card -->
+                    <div class="custom_gallery-card" data-card-label="websites">
+                      <!-- Thumbnail -->
+                      <div class="box">
+                        <div class="img">
+                          <img
+                            decoding="async"
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/img-3.png"
+                            alt="#" />
+                        </div>
+                      </div>
+                      <!-- Popup -->
+                      <div class="popup">
+                        <div class="overlay"></div>
+                        <div class="video-container">
+                          <div class="close-icon">
+                            <i class="fas fa-times"></i>
+                          </div>
+                          <video
+                            loop
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/video-1.mp4"></video>
+                          <!-- Play/Pause Btn -->
+                          <div class="play-pause-btn">
+                            <i class="fas fa-play"></i>
+                            <i class="fas fa-pause"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card -->
+                    <div class="custom_gallery-card" data-card-label="websites">
+                      <!-- Thumbnail -->
+                      <div class="box">
+                        <div class="img">
+                          <img
+                            decoding="async"
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/img-2.png"
+                            alt="#" />
+                        </div>
+                      </div>
+                      <!-- Popup -->
+                      <div class="popup">
+                        <div class="overlay"></div>
+                        <div class="video-container">
+                          <div class="close-icon">
+                            <i class="fas fa-times"></i>
+                          </div>
+                          <video
+                            loop
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/video-1.mp4"></video>
+                          <!-- Play/Pause Btn -->
+                          <div class="play-pause-btn">
+                            <i class="fas fa-play"></i>
+                            <i class="fas fa-pause"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card -->
+                    <div class="custom_gallery-card" data-card-label="websites">
+                      <!-- Thumbnail -->
+                      <div class="box">
+                        <div class="img">
+                          <img
+                            decoding="async"
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/img-1.png"
+                            alt="#" />
+                        </div>
+                      </div>
+                      <!-- Popup -->
+                      <div class="popup">
+                        <div class="overlay"></div>
+                        <div class="video-container">
+                          <div class="close-icon">
+                            <i class="fas fa-times"></i>
+                          </div>
+                          <video
+                            loop
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/video-1.mp4"></video>
+                          <!-- Play/Pause Btn -->
+                          <div class="play-pause-btn">
+                            <i class="fas fa-play"></i>
+                            <i class="fas fa-pause"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card -->
+                    <div class="custom_gallery-card" data-card-label="websites">
+                      <!-- Thumbnail -->
+                      <div class="box">
+                        <div class="img">
+                          <img
+                            decoding="async"
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/img-2.png"
+                            alt="#" />
+                        </div>
+                      </div>
+                      <!-- Popup -->
+                      <div class="popup">
+                        <div class="overlay"></div>
+                        <div class="video-container">
+                          <div class="close-icon">
+                            <i class="fas fa-times"></i>
+                          </div>
+                          <video
+                            loop
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/video-1.mp4"></video>
+                          <!-- Play/Pause Btn -->
+                          <div class="play-pause-btn">
+                            <i class="fas fa-play"></i>
+                            <i class="fas fa-pause"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card -->
+                    <div class="custom_gallery-card" data-card-label="websites">
+                      <!-- Thumbnail -->
+                      <div class="box">
+                        <div class="img">
+                          <img
+                            decoding="async"
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/img-3.png"
+                            alt="#" />
+                        </div>
+                      </div>
+                      <!-- Popup -->
+                      <div class="popup">
+                        <div class="overlay"></div>
+                        <div class="video-container">
+                          <div class="close-icon">
+                            <i class="fas fa-times"></i>
+                          </div>
+                          <video
+                            loop
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/video-1.mp4"></video>
+                          <!-- Play/Pause Btn -->
+                          <div class="play-pause-btn">
+                            <i class="fas fa-play"></i>
+                            <i class="fas fa-pause"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card -->
+                    <div
+                      class="custom_gallery-card"
+                      data-card-label="landing_pages">
+                      <!-- Thumbnail -->
+                      <div class="box">
+                        <div class="img">
+                          <img
+                            decoding="async"
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/img-2.png"
+                            alt="#" />
+                        </div>
+                      </div>
+                      <!-- Popup -->
+                      <div class="popup">
+                        <div class="overlay"></div>
+                        <div class="video-container">
+                          <div class="close-icon">
+                            <i class="fas fa-times"></i>
+                          </div>
+                          <video
+                            loop
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/video-1.mp4"></video>
+                          <!-- Play/Pause Btn -->
+                          <div class="play-pause-btn">
+                            <i class="fas fa-play"></i>
+                            <i class="fas fa-pause"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card -->
+                    <div
+                      class="custom_gallery-card"
+                      data-card-label="landing_pages">
+                      <!-- Thumbnail -->
+                      <div class="box">
+                        <div class="img">
+                          <img
+                            decoding="async"
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/img-1.png"
+                            alt="#" />
+                        </div>
+                      </div>
+                      <!-- Popup -->
+                      <div class="popup">
+                        <div class="overlay"></div>
+                        <div class="video-container">
+                          <div class="close-icon">
+                            <i class="fas fa-times"></i>
+                          </div>
+                          <video
+                            loop
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/video-1.mp4"></video>
+                          <!-- Play/Pause Btn -->
+                          <div class="play-pause-btn">
+                            <i class="fas fa-play"></i>
+                            <i class="fas fa-pause"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card -->
+                    <div
+                      class="custom_gallery-card"
+                      data-card-label="landing_pages">
+                      <!-- Thumbnail -->
+                      <div class="box">
+                        <div class="img">
+                          <img
+                            decoding="async"
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/img-2.png"
+                            alt="#" />
+                        </div>
+                      </div>
+                      <!-- Popup -->
+                      <div class="popup">
+                        <div class="overlay"></div>
+                        <div class="video-container">
+                          <div class="close-icon">
+                            <i class="fas fa-times"></i>
+                          </div>
+                          <video
+                            loop
+                            src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/video-1.mp4"></video>
+                          <!-- Play/Pause Btn -->
+                          <div class="play-pause-btn">
+                            <i class="fas fa-play"></i>
+                            <i class="fas fa-pause"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <div class="fliping-video-gallery-btn">
+                <a href="#" class="_btn"> <span>Load More</span> </a>
+              </div>
+            </div>
+          </div>
+          <!-- FAQs Container -->
+          <div class="flip-popup-faq-container">
+            <div class="title">
+              <h2>
+                <span> Frequently Asked Questions. </span> Account Management
+                PPC
+              </h2>
+            </div>
+            <div
+              class="custom-faqs-container"
+              data-custom-faq-section-identifier>
+              <ul>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="contact-btn">
+              <a href="#" class="_btn btn_dark">
+                <span>Contact Us</span>
+                <i class="fa-regular fa-arrow-right-long"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="fliping-content-section" data-flip-card-container-identifier>
+  <!-- Overlay -->
+  <div class="fliping-overlay" data-fliping-overlay></div>
+
+  <!-- Toggle Container -->
+  <div class="rotating-section-container color-theme-green">
+    <div class="rotating-section-content-sides-container" data-toggle-card-flip>
+      <!-- Front Side -->
+      <div class="rotating-content-front-side-container">
+        <div class="side-content-container">
+          <!-- Left Sided Content -->
+          <div class="_content">
+            <div class="label">
+              <h3>AI INTEGRATIONS</h3>
+            </div>
+            <div class="title">
+              <h2 class="static"> AI-Powered </h2>
+              <h2 class="dynamic" data-write-infinite-text>
+                <span> Personalization </span>
+                <span class="blinker"></span>
+              </h2>
+            </div>
+            <div class="sub-title">
+              <p>Tailored recommendations, higher conversions.</p>
+            </div>
+          </div>
+          <!-- Right Sided Image -->
+          <div class="rotating-card-img">
+            <div>
+              <img
+                src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/flip-card-service-image-02.png"
+                alt="#" />
+            </div>
+          </div>
+          <!-- Side Toggle Btn -->
+          <div class="side-toggle-btn">
+            <button data-flip-toggle-btn>
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Back Side -->
+      <div class="rotating-content-back-side-container">
+        <div class="backside-content-container">
+          <!-- Left Sided Content -->
+          <div class="_content">
+            <h2> AI-Powered Personalization </h2>
+            <div class="desc">
+              <p>
+                Boost sales by tailoring product recommendations to each
+                customer's preferences. Deliver a more relevant and engaging
+                shopping experience.
+              </p>
+            </div>
+            <a href="openPopup" data-learn-more-popup-open-btn>
+              <span>
+                Learn more about integrating <br />
+                conversational AI into your business.
+              </span>
+            </a>
+          </div>
+          <!-- Right Sided Image -->
+          <div class="backside-content-img">
+            <div class="svg-icon khala-icon">
+              <img
+                src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/vector-star-light-box.svg"
+                alt="#" />
+            </div>
+            <div>
+              <img
+                src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/flip-card-service-image-02.png"
+                alt="#" />
+            </div>
+          </div>
+          <!-- Side Toggle Btn -->
+          <div class="side-toggle-btn">
+            <button data-flip-toggle-btn>
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup -->
+  <div
+    class="rotating-section-popup-main"
+    data-flip-card-toggle-popup-container>
+    <div class="rotating-section-popup-container">
+      <div class="rotating-section-pupop-body">
+        <!-- Close Btn -->
+        <div class="rotating-section-popup-close-btn">
+          <button class="c_popup-close-btn" data-flip-popup-close-btn>
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Popup Container -->
+        <div class="rotating-section-popup-content-container">
+          <!-- Hero Content -->
+          <div class="fliping-popup-hero-content">
+            <!-- Text + Content -->
+            <div class="text-content-img">
+              <div class="_content">
+                <h2> Transform Your Campaigns with AI-Enhanced Media </h2>
+                <p>
+                  Discover how AI can elevate your brand with high-impact,
+                  data-driven creative content, ensuring better engagement and
+                  conversion rates.
+                </p>
+              </div>
+              <div class="image">
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/popup-img-01.png"
+                  alt="#" />
+              </div>
+            </div>
+            <!-- Slider -->
+            <div class="text-content-slider">
+              <div class="slider-container">
+                <!-- Slider main container -->
+                <div class="fliping-popup-swiper swiper">
+                  <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <div class="swiper-slide">
+                      <div class="slide-container">
+                        <h5> HyperFlow Benefits </h5>
+                        <h2>
+                          <span>
+                            While many have access to AI tools, at HyperFlow, we
+                            take it a step further.
+                          </span>
+                          Our team is laser-focused on the latest tools,
+                          features, and AI innovations. With a creative and
+                          technological background, we experiment daily to
+                          deliver better results that are tailored to your
+                          brand's unique needs. Leave the complexities to us,
+                          and get AI-powered media that’s optimized for
+                          success." This introduction positions HyperFlow as the
+                          expert that goes beyond just using AI tools — we are
+                          constantly evolving and experimenting with new
+                        </h2>
+                      </div>
+                    </div>
+                    <!-- Slides -->
+                    <div class="swiper-slide">
+                      <div class="slide-container">
+                        <h5> HyperFlow Benefits </h5>
+                        <h2>
+                          <span>
+                            While many have access to AI tools, at HyperFlow, we
+                            take it a step further.
+                          </span>
+                          Our team is laser-focused on the latest tools,
+                          features, and AI innovations. With a creative and
+                          technological background, we experiment daily to
+                          deliver better results that are tailored to your
+                          brand's unique needs. Leave the complexities to us,
+                          and get AI-powered media that’s optimized for
+                          success." This introduction positions HyperFlow as the
+                          expert that goes beyond just using AI tools — we are
+                          constantly evolving and experimenting with new
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="fliping-popup-slider-btns">
+                  <!-- Left Arrow -->
+                  <button class="fliping-popup-slider-btn prev" disabled>
+                    <svg
+                      viewBox="0 0 22 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M21.5295 7.10979L4.92079 7.10978C9.41333 4.52319 10.6152 0.611297 10.6753 0.400636L8.95233 -0.0917953C8.88416 0.137532 7.20697 5.52138 -0.0605481 7.13112L0.135871 7.99865L-0.0596515 8.86618C7.20697 10.4759 8.88416 15.8598 8.95232 16.0882L10.6762 15.5958C10.6152 15.3851 9.41333 11.4741 4.92079 8.88751L21.5295 8.88752L21.5295 7.10979Z" />
+                    </svg>
+                  </button>
+
+                  <!-- Right Arrow -->
+                  <button class="fliping-popup-slider-btn next">
+                    <svg
+                      viewBox="0 0 22 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M-0.000155773 8.97859L16.6085 8.97859C12.116 11.5652 10.9141 15.4771 10.854 15.6877L12.577 16.1802C12.6451 15.9508 14.3223 10.567 21.5898 8.95726L21.3934 8.08973L21.5889 7.2222C14.3223 5.61246 12.6451 0.228613 12.577 0.000174688L10.8531 0.492603C10.9141 0.703264 12.116 4.61427 16.6085 7.20087L-0.000155618 7.20086L-0.000155773 8.97859Z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Service Container -->
+          <div class="fliping-popup-service-container">
+            <h2> Additional Text Section </h2>
+            <div class="fliping-service-text-img-content">
+              <h3>
+                <span>
+                  While many have access to AI tools, at HyperFlow, we take it a
+                  step further.
+                </span>
+                Our team is laser-focused on the latest tools, features, and AI
+                innovations. With a creative and technological background, we
+                experiment daily to deliver better results that are tailored to
+                your brand's unique needs. Leave the complexities to us, and get
+                AI-powered media that’s optimized for success."
+              </h3>
+              <img
+                src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/tab-pencil-img.png"
+                alt="#" />
+            </div>
+          </div>
+          <!-- Benefits Container -->
+          <div class="fliping-popup-benefits-container">
+            <h2>Benefits</h2>
+            <ul>
+              <!-- Card -->
+              <li>
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/service-icon-01.svg"
+                  alt="#" />
+                <h5> Increased Conversion Rates. </h5>
+                <p>
+                  Data-driven creatives that are designed to bring results,
+                  boosting conversions significantly.
+                </p>
+              </li>
+              <!-- Card -->
+              <li>
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/service-icon-04.svg"
+                  alt="#" />
+                <h5> Time Efficiency. </h5>
+                <p>
+                  AI streamlines the creative process, allowing you to generate
+                  high-quality content faster than ever before.
+                </p>
+              </li>
+              <!-- Card -->
+              <li>
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/Group-604903.svg"
+                  alt="#" />
+                <h5> Cost Savings. </h5>
+                <p>
+                  Predictive AI scores your ad creatives, helping you optimize
+                  your ad spend by focusing on the most effective assets.
+                </p>
+              </li>
+              <!-- Card -->
+              <li>
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/service-icon-03.svg"
+                  alt="#" />
+                <h5> Customizable to Your Brand. </h5>
+                <p>
+                  AI keeps your content on-brand while allowing for greater
+                  flexibility and creativity.
+                </p>
+              </li>
+            </ul>
+          </div>
+          <!-- FAQs Container -->
+          <div class="flip-popup-faq-container">
+            <div class="title">
+              <h2>
+                <span> Frequently Asked Questions. </span> Account Management
+                PPC
+              </h2>
+            </div>
+            <div
+              class="custom-faqs-container"
+              data-custom-faq-section-identifier>
+              <ul>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="contact-btn">
+              <a href="#" class="_btn btn_dark">
+                <span>Contact Us</span>
+                <i class="fa-regular fa-arrow-right-long"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="fliping-content-section" data-flip-card-container-identifier>
+  <!-- Overlay -->
+  <div class="fliping-overlay" data-fliping-overlay></div>
+
+  <!-- Toggle Container -->
+  <div class="rotating-section-container color-theme-orange">
+    <div class="rotating-section-content-sides-container" data-toggle-card-flip>
+      <!-- Front Side -->
+      <div class="rotating-content-front-side-container">
+        <div class="side-content-container">
+          <!-- Left Sided Content -->
+          <div class="_content">
+            <div class="label">
+              <h3>AI INTEGRATIONS</h3>
+            </div>
+            <div class="title">
+              <h2 class="static"> Performance Analytics </h2>
+              <h2 class="dynamic" data-write-infinite-text>
+                <span> Platform </span>
+                <span class="blinker"></span>
+              </h2>
+            </div>
+            <div class="sub-title">
+              <p>Integrated analytics for growth.</p>
+            </div>
+          </div>
+          <!-- Right Sided Image -->
+          <div class="rotating-card-img small-image">
+            <div>
+              <img
+                src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/fliping-card-service-03.png"
+                alt="#" />
+            </div>
+          </div>
+          <!-- Side Toggle Btn -->
+          <div class="side-toggle-btn">
+            <button data-flip-toggle-btn>
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Back Side -->
+      <div class="rotating-content-back-side-container reverse-img">
+        <div class="backside-content-container">
+          <!-- Left Sided Content -->
+          <div class="_content">
+            <h2> AI-Powered Personalization </h2>
+            <div class="desc">
+              <p>
+                Boost sales by tailoring product recommendations to each
+                customer's preferences. Deliver a more relevant and engaging
+                shopping experience.
+              </p>
+            </div>
+            <a href="openPopup" data-learn-more-popup-open-btn>
+              <span>
+                Learn more about integrating <br />
+                conversational AI into your business.
+              </span>
+            </a>
+          </div>
+          <!-- Right Sided Image -->
+          <div class="backside-content-img">
+            <div class="svg-icon _8-icon">
+              <img
+                src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/waves-icon.svg"
+                alt="#" />
+            </div>
+            <div>
+              <img
+                src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/fliping-card-service-03.png"
+                alt="#" />
+            </div>
+          </div>
+          <!-- Side Toggle Btn -->
+          <div class="side-toggle-btn">
+            <button data-flip-toggle-btn>
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup -->
+  <div
+    class="rotating-section-popup-main"
+    data-flip-card-toggle-popup-container>
+    <div class="rotating-section-popup-container">
+      <div class="rotating-section-pupop-body">
+        <!-- Close Btn -->
+        <div class="rotating-section-popup-close-btn">
+          <button class="c_popup-close-btn" data-flip-popup-close-btn>
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Popup Container -->
+        <div class="rotating-section-popup-content-container">
+          <!-- Hero Content -->
+          <div class="fliping-popup-hero-content">
+            <!-- Text + Content -->
+            <div class="text-content-img">
+              <div class="_content">
+                <h2> Transform Your Campaigns with AI-Enhanced Media </h2>
+                <p>
+                  Discover how AI can elevate your brand with high-impact,
+                  data-driven creative content, ensuring better engagement and
+                  conversion rates.
+                </p>
+              </div>
+              <div class="image">
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/popup-img-01.png"
+                  alt="#" />
+              </div>
+            </div>
+            <!-- Slider -->
+            <div class="text-content-slider">
+              <div class="slider-container">
+                <!-- Slider main container -->
+                <div class="fliping-popup-swiper swiper">
+                  <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <div class="swiper-slide">
+                      <div class="slide-container">
+                        <h5> HyperFlow Benefits </h5>
+                        <h2>
+                          <span>
+                            While many have access to AI tools, at HyperFlow, we
+                            take it a step further.
+                          </span>
+                          Our team is laser-focused on the latest tools,
+                          features, and AI innovations. With a creative and
+                          technological background, we experiment daily to
+                          deliver better results that are tailored to your
+                          brand's unique needs. Leave the complexities to us,
+                          and get AI-powered media that’s optimized for
+                          success." This introduction positions HyperFlow as the
+                          expert that goes beyond just using AI tools — we are
+                          constantly evolving and experimenting with new
+                        </h2>
+                      </div>
+                    </div>
+                    <!-- Slides -->
+                    <div class="swiper-slide">
+                      <div class="slide-container">
+                        <h5> HyperFlow Benefits </h5>
+                        <h2>
+                          <span>
+                            While many have access to AI tools, at HyperFlow, we
+                            take it a step further.
+                          </span>
+                          Our team is laser-focused on the latest tools,
+                          features, and AI innovations. With a creative and
+                          technological background, we experiment daily to
+                          deliver better results that are tailored to your
+                          brand's unique needs. Leave the complexities to us,
+                          and get AI-powered media that’s optimized for
+                          success." This introduction positions HyperFlow as the
+                          expert that goes beyond just using AI tools — we are
+                          constantly evolving and experimenting with new
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="fliping-popup-slider-btns">
+                  <!-- Left Arrow -->
+                  <button class="fliping-popup-slider-btn prev" disabled>
+                    <svg
+                      viewBox="0 0 22 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M21.5295 7.10979L4.92079 7.10978C9.41333 4.52319 10.6152 0.611297 10.6753 0.400636L8.95233 -0.0917953C8.88416 0.137532 7.20697 5.52138 -0.0605481 7.13112L0.135871 7.99865L-0.0596515 8.86618C7.20697 10.4759 8.88416 15.8598 8.95232 16.0882L10.6762 15.5958C10.6152 15.3851 9.41333 11.4741 4.92079 8.88751L21.5295 8.88752L21.5295 7.10979Z" />
+                    </svg>
+                  </button>
+
+                  <!-- Right Arrow -->
+                  <button class="fliping-popup-slider-btn next">
+                    <svg
+                      viewBox="0 0 22 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M-0.000155773 8.97859L16.6085 8.97859C12.116 11.5652 10.9141 15.4771 10.854 15.6877L12.577 16.1802C12.6451 15.9508 14.3223 10.567 21.5898 8.95726L21.3934 8.08973L21.5889 7.2222C14.3223 5.61246 12.6451 0.228613 12.577 0.000174688L10.8531 0.492603C10.9141 0.703264 12.116 4.61427 16.6085 7.20087L-0.000155618 7.20086L-0.000155773 8.97859Z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Service Container -->
+          <div class="fliping-popup-service-container">
+            <h2> Additional Text Section </h2>
+            <div class="fliping-service-text-img-content">
+              <h3>
+                <span>
+                  While many have access to AI tools, at HyperFlow, we take it a
+                  step further.
+                </span>
+                Our team is laser-focused on the latest tools, features, and AI
+                innovations. With a creative and technological background, we
+                experiment daily to deliver better results that are tailored to
+                your brand's unique needs. Leave the complexities to us, and get
+                AI-powered media that’s optimized for success."
+              </h3>
+              <img
+                src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/tab-pencil-img.png"
+                alt="#" />
+            </div>
+          </div>
+          <!-- Benefits Container -->
+          <div class="fliping-popup-benefits-container">
+            <h2>Benefits</h2>
+            <ul>
+              <!-- Card -->
+              <li>
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/service-icon-01.svg"
+                  alt="#" />
+                <h5> Increased Conversion Rates. </h5>
+                <p>
+                  Data-driven creatives that are designed to bring results,
+                  boosting conversions significantly.
+                </p>
+              </li>
+              <!-- Card -->
+              <li>
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/service-icon-04.svg"
+                  alt="#" />
+                <h5> Time Efficiency. </h5>
+                <p>
+                  AI streamlines the creative process, allowing you to generate
+                  high-quality content faster than ever before.
+                </p>
+              </li>
+              <!-- Card -->
+              <li>
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/Group-604903.svg"
+                  alt="#" />
+                <h5> Cost Savings. </h5>
+                <p>
+                  Predictive AI scores your ad creatives, helping you optimize
+                  your ad spend by focusing on the most effective assets.
+                </p>
+              </li>
+              <!-- Card -->
+              <li>
+                <img
+                  src="https://wordpress-1121700-4853242.cloudwaysapps.com/wp-content/uploads/2024/09/service-icon-03.svg"
+                  alt="#" />
+                <h5> Customizable to Your Brand. </h5>
+                <p>
+                  AI keeps your content on-brand while allowing for greater
+                  flexibility and creativity.
+                </p>
+              </li>
+            </ul>
+          </div>
+          <!-- FAQs Container -->
+          <div class="flip-popup-faq-container">
+            <div class="title">
+              <h2>
+                <span> Frequently Asked Questions. </span> Account Management
+                PPC
+              </h2>
+            </div>
+            <div
+              class="custom-faqs-container"
+              data-custom-faq-section-identifier>
+              <ul>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <!-- Faq -->
+                <li>
+                  <div class="custom-faq">
+                    <div class="custom-faq-q">
+                      <h2>
+                        What support do you provide after the migration is
+                        complete?
+                      </h2>
+                      <div class="faq-icon"> </div>
+                    </div>
+                    <div class="custom-faq-a">
+                      <div class="faq-a-content">
+                        <div class="faq-a-body">
+                          <p>
+                            The duration of the migration process depends on
+                            various factors, such as the size and complexity of
+                            your existing store, the amount of data to be
+                            migrated, and the customization requirements. It can
+                            typically range from a few days to a few weeks. Our
+                            Shopify migration experts will assess your specific
+                            situation and provide you with a clear timeline
+                            during the initial consultation.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="contact-btn">
+              <a href="#" class="_btn btn_dark">
+                <span>Contact Us</span>
+                <i class="fa-regular fa-arrow-right-long"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Select all elements with the class "dynamic" that have the attribute "data-write-infinite-text"
+  const elements = document.querySelectorAll(
+    ".dynamic[data-write-infinite-text]"
+  );
+
+  // Loop through each element to create a typing effect
+  elements.forEach((element) => {
+    // Select the first <span> element inside the current element
+    const textElement = element.querySelector("span:first-child");
+    // Store the original text content for typing and deleting
+    const originalText = textElement.textContent;
+    let charIndex = 0; // To track the current character position
+    let isDeleting = false; // To toggle between typing and deleting
+
+    // Function to create the typing and deleting effect
+    function typeEffect() {
+      // If typing and not reached the end of the text
+      if (!isDeleting && charIndex < originalText.length) {
+        textElement.textContent = originalText.substring(0, charIndex + 1); // Type one more character
+        charIndex++; // Increment character index
+        setTimeout(typeEffect, 130); // Adjust typing speed
+      }
+      // If deleting characters
+      else if (isDeleting && charIndex > 0) {
+        textElement.textContent = originalText.substring(0, charIndex - 1); // Remove one character
+        charIndex--; // Decrement character index
+        setTimeout(typeEffect, 50); // Adjust deleting speed
+      }
+      // If the entire text has been typed
+      else if (charIndex === originalText.length) {
+        setTimeout(() => {
+          isDeleting = true; // Switch to deleting mode
+          typeEffect();
+        }, 500); // Pause before starting to delete
+      }
+      // If the text has been completely deleted
+      else if (isDeleting && charIndex === 0) {
+        isDeleting = false; // Switch to typing mode
+        setTimeout(typeEffect, 500); // Pause before typing again
+      }
+    }
+
+    typeEffect(); // Start the typing effect for each element
+  });
+
+  // Select all swiper popup elements
+  const allPopupsSwiper = document.querySelectorAll(
+    ".rotating-section-popup-main .fliping-popup-swiper"
+  );
+
+  // Loop through each swiper popup and initialize Swiper functionality
+  allPopupsSwiper.forEach((popupSwiper, _I) => {
+    const swiper = new Swiper(popupSwiper, {
+      // Swiper options
+      loop: true, // Infinite loop
+      speed: 800, // Slide transition speed
+
+      // Navigation buttons for swiper
+      navigation: {
+        nextEl: ".fliping-popup-slider-btn.next",
+        prevEl: ".fliping-popup-slider-btn.prev",
+      },
+
+      // Scrollbar for swiper
+      scrollbar: {
+        el: ".swiper-scrollbar",
+      },
+    });
+
+    // Disable the previous button initially
+    document.querySelector(".fliping-popup-slider-btn.prev").disabled = true;
+  });
+
+  // Select all FAQ sections
+  const allFaqSections = document.querySelectorAll(
+    "[data-custom-faq-section-identifier]"
+  );
+
+  // Loop through each FAQ section to enable toggle functionality
+  allFaqSections.forEach((faqSection) => {
+    // Select all FAQs within the current section
+    const faqs = faqSection.querySelectorAll("ul li .custom-faq");
+
+    // Loop through each FAQ and add toggle functionality
+    faqs.forEach((faq, faq_i) => {
+      // Select the question toggle button
+      const toggleBtn = faq.querySelector(".custom-faq-q");
+
+      // Add click event listener to open/close the FAQ
+      toggleBtn.addEventListener("click", () => {
+        faqs.forEach((_faq, _faq_i) => {
+          if (faq_i === _faq_i) {
+            _faq.classList.toggle("open"); // Toggle the "open" class for the current FAQ
+          } else {
+            _faq.classList.remove("open"); // Close all other FAQs
+          }
+        });
+      });
+    });
+  });
+
+  // Select all flip card containers with the attribute "data-flip-card-container-identifier"
+  const allFlipCardsElems = document.querySelectorAll(
+    "section.fliping-content-section[data-flip-card-container-identifier]"
+  );
+
+  // Loop through each flip card to handle popup open/close
+  allFlipCardsElems.forEach((flipCard) => {
+    // Select the "Learn More" button to open the popup
+    const popupOpenBtn = flipCard.querySelector(
+      "a[data-learn-more-popup-open-btn]"
+    );
+    // Select the popup container
+    const popup = flipCard.querySelector(
+      ".rotating-section-popup-main[data-flip-card-toggle-popup-container]"
+    );
+    // Select the close button inside the popup
+    const popupCloseBtn = popup.querySelector(
+      "button.c_popup-close-btn[data-flip-popup-close-btn]"
+    );
+
+    const body = document.body; // Reference to the body element to disable scrolling when popup is open
+
+    const popupOverlay = flipCard.querySelector(
+      ".fliping-overlay[data-fliping-overlay]"
+    );
+
+    // Add click event listener to the "Learn More" button to show the popup
+    popupOpenBtn.addEventListener("click", (e) => {
+      e.preventDefault(); // Prevent default link behavior
+      popup.classList.add("show"); // Show the popup
+      body.classList.add("no-scroll"); // Disable scrolling on the body
+
+      setTimeout(() => {
+        popup.scrollTo({ top: 0, behavior: "smooth" }); // Scroll popup content to the top smoothly
+        popup.classList.add("anim"); // Add animation class for popup
+      }, 10); // Delay to ensure popup is fully visible before animating
+    });
+
+    function closePopup() {
+      popup.classList.remove("anim"); // Remove animation class
+      body.classList.remove("no-scroll"); // Enable scrolling on the body again
+
+      setTimeout(() => {
+        popup.classList.remove("show"); // Hide the popup
+      }, 300); // Delay to ensure the closing animation finishes
+    }
+
+    // Add click event listener to the close button to hide the popup
+    popupCloseBtn.addEventListener("click", closePopup);
+    popup.addEventListener("click", (e) => {
+      e.target === popup ? closePopup() : "";
+    });
+
+    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    // Loop through each flip card to add the flipping functionality
+
+    const _flipCard = flipCard.querySelector(
+      ".rotating-section-content-sides-container[data-toggle-card-flip]"
+    );
+    // Select the front side toggle button
+    const toggleBtn = _flipCard.querySelector(
+      ".rotating-content-front-side-container .side-toggle-btn button[data-flip-toggle-btn]"
+    );
+    // Add click event listener to toggle the flip card
+    toggleBtn.addEventListener("click", () => {
+      _flipCard.classList.add("toggle"); // Add or remove the "toggle" class to flip the card
+      popupOverlay.classList.add("show");
+      popupOverlay.style.height = document.body.scrollHeight + "px";
+      setTimeout(() => {
+        popupOverlay.classList.add("anim");
+      }, 10);
+    });
+
+    // Select the back side toggle button
+    const toggleFrontBtn = _flipCard.querySelector(
+      ".rotating-content-back-side-container .side-toggle-btn button[data-flip-toggle-btn]"
+    );
+
+    function flipToFront() {
+      _flipCard.classList.remove("toggle"); // Add or remove the "toggle" class to flip the card back
+      popupOverlay.classList.remove("anim");
+      setTimeout(() => {
+        popupOverlay.classList.remove("show");
+      }, 700);
+    }
+
+    // Add click event listener to flip the card back
+    toggleFrontBtn.addEventListener("click", flipToFront);
+    popupOverlay.addEventListener("click", flipToFront);
+
+    // (((((((((((((((((((((((((((((((())))))))))))))))))))))))))))))))
+
+    const galleryBtns = flipCard.querySelectorAll(
+      "#customGallerySection .c-btns > button[data-card-label]"
+    );
+
+    const galleryCards = flipCard.querySelectorAll(
+      "#customGallerySection .custom_gallery-cards > .custom_gallery-card"
+    );
+
+    galleryBtns.forEach((btn, i) => {
+      if (btn.classList.contains("active")) {
+        const label = btn.getAttribute("data-card-label");
+        galleryCards.forEach((card) => {
+          const cLabel = card.getAttribute("data-card-label");
+          if (cLabel === label) {
+            card.classList.add("show");
+            card.classList.add("anim");
+          }
+        });
+      }
+
+      btn.addEventListener("click", () => {
+        galleryBtns.forEach((_b) => _b.classList.remove("active"));
+        btn.classList.add("active");
+        const label = btn.getAttribute("data-card-label");
+        galleryCards.forEach((card) => {
+          // Showing new cards
+          const cLabel = card.getAttribute("data-card-label");
+          if (label === "all") {
+            card.classList.add("show");
+            setTimeout(() => {
+              card.classList.add("anim");
+            }, 10);
+          } else {
+            if (cLabel === label) {
+              card.classList.add("show");
+              setTimeout(() => {
+                card.classList.add("anim");
+              }, 10);
+            } else {
+              // Hiding previous cards
+              card.classList.remove("anim");
+              setTimeout(() => {
+                card.classList.remove("show");
+              }, 600);
+            }
+          }
+        });
+      });
+    });
+
+    galleryCards.forEach((card, i) => {
+      const thumbnail = card.querySelector(".box"),
+        overLay = card.querySelector(".overlay"),
+        closeIcon = card.querySelector(".close-icon"),
+        playPauseBtn = card.querySelector(".play-pause-btn"),
+        video = card.querySelector("video");
+
+      thumbnail.addEventListener("click", (event) => {
+        card.querySelector(".popup").style.height = popup.scrollHeight + "px";
+
+        const videoPlayer = card.querySelector(".video-container");
+
+        card.classList.add("show-popup");
+
+        const y = popup.scrollTop;
+        const x = (window.innerHeight - videoPlayer.offsetHeight) / 2;
+        const z = y + x;
+        videoPlayer.style.top = z + "px";
+
+        popup.style.overflow = "hidden";
+
+        // console.log(videoPlayer, videoPlayer.offsetHeight);
+        // console.log(videoPlayer, videoPlayer.clientHeight);
+        // console.log(videoPlayer, videoPlayer.scrollHeight);
+
+        setTimeout(() => {
+          card.classList.add("anim-popup");
+        }, 10);
+      });
+      const closeVideo = () => {
+        card.classList.remove("anim-popup");
+        setTimeout(() => {
+          card.classList.remove("show-popup");
+          popup.style.overflow = "auto";
+        }, 300);
+
+        if (playPauseBtn.classList.contains("played")) {
+          playPauseBtn.classList.remove("played");
+          video.pause();
+        }
+      };
+      overLay.addEventListener("click", closeVideo);
+      closeIcon.addEventListener("click", closeVideo);
+
+      playPauseBtn.addEventListener("click", (e) => {
+        playPauseBtn.classList.toggle("played");
+        if (playPauseBtn.classList.contains("played")) {
+          video.play();
+        } else {
+          video.pause();
+        }
+      });
+    });
+  });
+</script>

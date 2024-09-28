@@ -43,32 +43,6 @@ elements.forEach((element) => {
   typeEffect(); // Start the typing effect for each element
 });
 
-// Select all flip cards that have the attribute "data-toggle-card-flip"
-// const flipCards = document.querySelectorAll(
-//   ".rotating-section-content-sides-container[data-toggle-card-flip]"
-// );
-
-// // Loop through each flip card to add the flipping functionality
-// flipCards.forEach((flipCard) => {
-//   // Select the front side toggle button
-//   const toggleBtn = flipCard.querySelector(
-//     ".rotating-content-front-side-container .side-toggle-btn button[data-flip-toggle-btn]"
-//   );
-//   // Add click event listener to toggle the flip card
-//   toggleBtn.addEventListener("click", () => {
-//     flipCard.classList.toggle("toggle"); // Add or remove the "toggle" class to flip the card
-//   });
-
-//   // Select the back side toggle button
-//   const toggleFrontBtn = flipCard.querySelector(
-//     ".rotating-content-back-side-container .side-toggle-btn button[data-flip-toggle-btn]"
-//   );
-//   // Add click event listener to flip the card back
-//   toggleFrontBtn.addEventListener("click", () => {
-//     flipCard.classList.toggle("toggle"); // Add or remove the "toggle" class to flip the card back
-//   });
-// });
-
 // Select all swiper popup elements
 const allPopupsSwiper = document.querySelectorAll(
   ".rotating-section-popup-main .fliping-popup-swiper"

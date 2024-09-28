@@ -1,5 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+
+body {
+   padding: 50px 0;
+   background: #131314;
+}
 
 * {
    margin: 0;
@@ -74,6 +79,10 @@
          background: #DFE0E4;
       }
    }
+}
+
+body.no-scroll {
+   overflow: hidden;
 }
 
 .play-pause-btn {
@@ -220,15 +229,6 @@
          }
       }
    }
-}
-
-body {
-   padding: 50px 0;
-   background: #131314;
-}
-
-body.no-scroll {
-   overflow: hidden;
 }
 
 @keyframes blink-caret {
@@ -1692,12 +1692,6 @@ body.no-scroll {
 
 @media (max-width: 576px) {
    .fliping-content-section {
-      .fliping-overlay {
-         &.show {}
-
-         &.anim {}
-      }
-
       .rotating-section-container {
          max-width: 90%;
 
@@ -1705,25 +1699,17 @@ body.no-scroll {
             height: unset;
             aspect-ratio: 1 / 1.3;
 
-            &.toggle {}
-
             .rotating-content-front-side-container {
                .side-content-container {
                   padding: 25px;
 
                   .content {
-                     .label {
-                        h3 {}
-                     }
-
                      .title {
                         margin: 25px 0 0 0;
 
                         h2 {
                            font-size: 40px;
                            line-height: 46px;
-
-                           &.static {}
 
                            &.dynamic {
                               .blinker {
@@ -1755,10 +1741,6 @@ body.no-scroll {
                   .side-toggle-btn {
                      bottom: 20px;
                      right: 20px;
-
-                     button {
-                        &:hover {}
-                     }
                   }
                }
             }
@@ -1771,8 +1753,6 @@ body.no-scroll {
                   gap: 30px;
 
                   .content {
-                     h2 {}
-
                      .desc {
                         p {
                            font-size: 18px;
@@ -1787,8 +1767,6 @@ body.no-scroll {
                   .backside-content-img {
                      .svg-icon {
                         position: static;
-
-                        img {}
                      }
 
                      div:not(.svg-icon) {
@@ -1799,10 +1777,6 @@ body.no-scroll {
                   .side-toggle-btn {
                      bottom: 20px;
                      right: 20px;
-
-                     button {
-                        &:hover {}
-                     }
                   }
                }
             }
@@ -1810,17 +1784,7 @@ body.no-scroll {
       }
 
       .rotating-section-popup-main {
-         &.show {}
-
-         &.anim {}
-
          .rotating-section-popup-container {
-            .rotating-section-popup-close-btn {
-               button {
-                  &:hover {}
-               }
-            }
-
             .rotating-section-popup-content-container {
                .fliping-popup-hero-content {
                   padding: 30px 20px 40px;
@@ -1831,46 +1795,20 @@ body.no-scroll {
                            font-size: 30px;
                            line-height: 40px;
                         }
-
-                        p {}
-                     }
-
-                     .image {
-                        img {}
                      }
                   }
 
                   .text-content-slider {
                      padding: 30px 20px 20px;
 
-                     .slider-container {}
-
                      .fliping-popup-swiper {
                         .swiper-wrapper {
                            .swiper-slide {
                               .slide-container {
-                                 h5 {}
-
                                  h2 {
                                     font-size: 20px;
-
-                                    span {}
                                  }
                               }
-                           }
-                        }
-                     }
-
-                     .fliping-popup-slider-btns {
-                        button {
-                           svg {}
-
-                           &:disabled {
-                              svg {}
-                           }
-
-                           &:hover:not(:disabled) {
-                              svg {}
                            }
                         }
                      }
@@ -1891,11 +1829,7 @@ body.no-scroll {
                      h3 {
                         padding: 20px 20px 0;
                         font-size: 20px;
-
-                        span {}
                      }
-
-                     img {}
                   }
                }
 
@@ -1912,8 +1846,6 @@ body.no-scroll {
 
                      li {
                         padding: 28px 24px;
-
-                        img {}
 
                         h5 {
                            font-size: 20px;
@@ -1934,8 +1866,6 @@ body.no-scroll {
                      h2 {
                         font-size: 22px;
                         line-height: 32px;
-
-                        span {}
                      }
                   }
 
@@ -1958,99 +1888,11 @@ body.no-scroll {
                         }
                      }
                   }
-
-                  .contact-btn {
-                     a {}
-                  }
                }
 
                .fliping-popup-video-gallery-container {
                   margin-bottom: 50px;
                   padding: 40px 20px;
-
-                  .fliping-popup-video-gallery {
-                     .fliping-video-gallery-headings {
-                        .titles {
-                           h3 {}
-
-                           h1 {}
-                        }
-
-                        .desc {
-                           p {}
-                        }
-                     }
-
-                     .custom_gallery-section {
-                        .c-container {
-                           .c-btns {
-                              button {
-
-                                 &:hover,
-                                 &.active {}
-                              }
-                           }
-
-                           .custom_gallery-cards {
-                              .custom_gallery-card {
-                                 &.anim {}
-
-                                 &.show {}
-
-                                 .box {
-                                    img {}
-
-                                    &:hover {
-                                       img {}
-                                    }
-                                 }
-
-                                 &.show-popup .popup {}
-
-                                 &.anim-popup .popup {
-                                    .overlay {}
-
-                                    .video-container {}
-                                 }
-
-                                 .popup {
-                                    .overlay {}
-
-                                    .video-container {
-                                       .close-icon {
-                                          i {
-                                             &:hover {}
-                                          }
-                                       }
-
-                                       video {}
-
-                                       .play-pause-btn {
-                                          i {}
-
-                                          i.fa-play {}
-
-                                          &.played {
-                                             i.fa-pause {}
-
-                                             i.fa-play {}
-                                          }
-                                       }
-
-                                       &:hover {
-                                          .play-pause-btn {}
-                                       }
-                                    }
-                                 }
-                              }
-                           }
-                        }
-                     }
-                  }
-
-                  .fliping-video-gallery-btn {
-                     ._btn {}
-                  }
                }
             }
          }

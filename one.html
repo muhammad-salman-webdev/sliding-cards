@@ -236,7 +236,7 @@
   .fliping-content-section {
     .fliping-overlay {
       background: #0000007a;
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(0px);
       position: fixed;
       inset: 0;
       display: none;
@@ -1899,12 +1899,12 @@
   }
 </style>
 
-<section class="fliping-content-section" data-flip-card-container-identifier>
+<section class="fliping-content-section"  data-flip-card-container-identifier>
   <!-- Overlay -->
   <div class="fliping-overlay" data-fliping-overlay></div>
 
   <!-- Toggle Container -->
-  <div class="rotating-section-container">
+  <div class="rotating-section-container" style="margin-top:0;" >
     <div class="rotating-section-content-sides-container" data-toggle-card-flip>
       <!-- Front Side -->
       <div class="rotating-content-front-side-container">
